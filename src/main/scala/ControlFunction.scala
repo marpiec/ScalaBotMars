@@ -1,12 +1,15 @@
 import impl.function.ReactFunction
-import impl.io.{OutputWriter, InputParser}
+import impl.io.{InputParser}
 import impl.ReactHandler
 
 class ControlFunction {
   def respond(input: String): String = {
 
     try {
-      tryToRespond(input)
+      val response = tryToRespond(input)
+      println(input)
+      println(response)
+      response
     } catch {
       case e => {
         e.printStackTrace()
