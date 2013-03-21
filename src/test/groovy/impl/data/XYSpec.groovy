@@ -1,6 +1,5 @@
-package impl.io
+package impl.data
 
-import impl.data.XY
 import spock.lang.Specification
 
 class XYSpec extends Specification {
