@@ -33,6 +33,10 @@ class DirectionPreferences {
     preferences(normalize(direction+2)) -= preferenceDiff/4
   }
 
+  def decreasePreferenceSharp(direction: Int, preferenceDiff: Double) {
+    preferences(normalize(direction)) -= preferenceDiff
+  }
+
   def findBestDirection():Int = {
     var bestDirection = -1
     var bestDirectionValue = - Double.MaxValue
@@ -46,10 +50,10 @@ class DirectionPreferences {
     bestDirection
   }
 
-  def sumPreferences(other:DirectionPreferences): DirectionPreferences = {
+  def sumPreferences(other:DirectionPreferences, scale:Double): DirectionPreferences = {
     val newPreferences = new DirectionPreferences()
     for (i <- 0 until DIRECTIONS_COUNT) {
-      newPreferences.preferences(i) = preferences(i) + other.preferences(i)
+      newPreferences.preferences(i) = preferences(i) + other.preferences(i) * scale
     }
     newPreferences
   }

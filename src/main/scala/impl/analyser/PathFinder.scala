@@ -21,7 +21,7 @@ class PathFinder(viewAnalyser: ViewAnalyser) {
         lastDistance -= 1
       }
     } else {
-      println("No path")
+      // No path
     }
 
     path
