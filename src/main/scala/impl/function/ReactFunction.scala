@@ -18,4 +18,13 @@ class ReactFunction(val generation: Int, val name: String, val time: Int, val vi
       (math.sqrt(view.length) - 1) / 2
     }
   }
+
+  def viewToFormattedString() = {
+    val sb = new StringBuilder()
+    val viewSize = math.sqrt(view.length).toInt
+    for (i <- 0 until viewSize) {
+      sb.append(view.substring(i*viewSize, i*viewSize + viewSize)).append("\n")
+    }
+    sb.toString
+  }
 }

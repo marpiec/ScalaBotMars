@@ -1,0 +1,34 @@
+package impl.analyser
+
+import impl.data.{EntitiesTypes, XY}
+
+/**
+ * 
+ */
+class ViewAnalyser(view: String) {
+
+  val viewSize = math.sqrt(view.length).toInt
+
+  val viewDistance = (viewSize - 1) / 2
+
+  def getViewPoint(x:Int, y:Int):Char = view.charAt(y * viewSize + x)
+  def getViewPointRelative(x:Int, y:Int):Char = view.charAt((y+viewDistance) * viewSize + (x+viewDistance))
+
+  def goodPlants = findEntitiesOfType(EntitiesTypes.GOOD_PLANT)
+  def goodBeasts = findEntitiesOfType(EntitiesTypes.GOOD_BEAST)
+
+
+
+  private def findEntitiesOfType(entityType:Char):List[XY] = {
+
+    var foundEntities = List[XY]()
+    for( y <- 0 until viewSize){
+      for( x <- 0 until viewSize){
+        if (getViewPoint(x, y) == entityType) {
+          foundEntities ::= new XY(x - viewDistance, y - viewDistance)
+        }
+      }
+    }
+    foundEntities
+  }
+}

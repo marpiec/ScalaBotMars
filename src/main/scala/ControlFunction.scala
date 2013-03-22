@@ -1,15 +1,17 @@
 import impl.function.ReactFunction
 import impl.io.{InputParser}
-import impl.ReactHandler
+import impl.reactor.ReactHandler
 
 class ControlFunction {
   def respond(input: String): String = {
 
     try {
+      //println(input)
       val response = tryToRespond(input)
-      println(input)
+      //
       println(response)
-      response
+      //Thread.sleep(1000)
+      response.toString
     } catch {
       case e => {
         e.printStackTrace()
@@ -20,11 +22,11 @@ class ControlFunction {
   }
 
 
-  def tryToRespond(input: String): String = {
+  def tryToRespond(input: String) = {
     val parser = new InputParser(input)
 
     if (parser.isReactFunction) {
-      ReactHandler.respond(parser.result.asInstanceOf[ReactFunction])
+      new ReactHandler(parser.result.asInstanceOf[ReactFunction]).respond()
     } else {
       ""
     }
