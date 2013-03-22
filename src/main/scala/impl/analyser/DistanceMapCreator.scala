@@ -28,7 +28,7 @@ class DistanceMapCreator(val viewAnalyser:ViewAnalyser) {
         }
       }
     }
-
+    /*
     for (y <- 0 until viewSize) {
       for (x <- 0 until viewSize) {
         if (distanceMap(x)(y) == Int.MaxValue) {
@@ -43,7 +43,7 @@ class DistanceMapCreator(val viewAnalyser:ViewAnalyser) {
       }
       println()
     }
-    println()
+    println()       */
     distanceMap
   }
 

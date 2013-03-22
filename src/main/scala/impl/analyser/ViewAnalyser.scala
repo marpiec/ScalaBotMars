@@ -11,12 +11,15 @@ class ViewAnalyser(view: String) {
 
   val viewDistance = (viewSize - 1) / 2
 
+  def getViewPointFromRelative(xy:XY):Char = view.charAt((xy.y + viewDistance) * viewSize + (xy.x + viewDistance))
   def getViewPoint(x:Int, y:Int):Char = view.charAt(y * viewSize + x)
   def getViewPointRelative(x:Int, y:Int):Char = view.charAt((y+viewDistance) * viewSize + (x+viewDistance))
 
   def goodPlants = findEntitiesOfType(EntitiesTypes.GOOD_PLANT)
   def goodBeasts = findEntitiesOfType(EntitiesTypes.GOOD_BEAST)
 
+  def badPlants = findEntitiesOfType(EntitiesTypes.BAD_PLANT)
+  def badBeasts = findEntitiesOfType(EntitiesTypes.BAD_BEAST)
 
 
   private def findEntitiesOfType(entityType:Char):List[XY] = {

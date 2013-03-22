@@ -10,8 +10,6 @@ class ReactHandler(val reactFunction: ReactFunction) {
 
 
   def respond() = {
-    //DebugCommand.say(reactFunction.viewDistance.toString)
-    //println(reactFunction.collisionOption)
 
     val viewAnalyser = new ViewAnalyser(reactFunction.view)
 
@@ -19,25 +17,28 @@ class ReactHandler(val reactFunction: ReactFunction) {
 
     val distanceMap = new DistanceMapCreator(viewAnalyser).createDistanceMap()
 
+    val hungerPreferences = new Hunger(viewAnalyser, distanceMap).getPreferences()
 
-    val foodFinder = new FoodFinder(viewAnalyser, distanceMap)
+    val fearPreferences = new Fear(viewAnalyser, distanceMap).getPreferences()
 
-    val preferences: DirectionPreferences = foodFinder.getDirectionPreferences()
-    println("preferences: "+preferences)
+    val preferences = hungerPreferences.sumPreferences(fearPreferences)
 
-    val direction = preferences.findBestDirection()
 
-    println("Best direction "+direction+" "+DirectionCalculator.getNextStepIntoDirection(direction))
+    var targetPoint:Char = '_'
+    var step:XY = null
+    do {
+      val direction = preferences.findBestDirection()
 
-    val step = DirectionCalculator.getNextStepIntoDirection(direction)
+      preferences.decreasePreference(direction, 100)
 
-    val targetPoint = viewAnalyser.getViewPointRelative(step.x, step.y)
-    if (EntitiesTypes.isEmpty(targetPoint) || EntitiesTypes.isMyMiniBot(targetPoint) || EntitiesTypes.isGoodBeast(targetPoint)
-    || EntitiesTypes.isGoodPlant(targetPoint)) {//usunac ten warunek, gdy zaimplementowany bedzie strach
-      new Move(step)
-    } else {
-      new Move(new XY(0,0))
-    }
+      println("Best direction "+direction+" "+DirectionCalculator.getNextStepIntoDirection(direction))
+
+      step = DirectionCalculator.getNextStepIntoDirection(direction)
+      targetPoint = viewAnalyser.getViewPointRelative(step.x, step.y)
+
+    } while (EntitiesTypes.isWall(targetPoint) || EntitiesTypes.isBadBeast(targetPoint) || EntitiesTypes.isBadPlant(targetPoint))
+
+    new Move(step)
 
 
   }

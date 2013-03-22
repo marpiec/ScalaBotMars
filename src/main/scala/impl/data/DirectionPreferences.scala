@@ -19,10 +19,18 @@ class DirectionPreferences {
 
   def increasePreference(direction: Int, preferenceDiff: Double) {
     preferences(normalize(direction)) += preferenceDiff
+    preferences(normalize(direction-1)) += preferenceDiff/2
+    preferences(normalize(direction+1)) += preferenceDiff/2
+    preferences(normalize(direction-2)) += preferenceDiff/4
+    preferences(normalize(direction+2)) += preferenceDiff/4
   }
 
   def decreasePreference(direction: Int, preferenceDiff: Double) {
     preferences(normalize(direction)) -= preferenceDiff
+    preferences(normalize(direction-1)) -= preferenceDiff/2
+    preferences(normalize(direction+1)) -= preferenceDiff/2
+    preferences(normalize(direction-2)) -= preferenceDiff/4
+    preferences(normalize(direction+2)) -= preferenceDiff/4
   }
 
   def findBestDirection():Int = {
@@ -36,6 +44,14 @@ class DirectionPreferences {
       }
     }
     bestDirection
+  }
+
+  def sumPreferences(other:DirectionPreferences): DirectionPreferences = {
+    val newPreferences = new DirectionPreferences()
+    for (i <- 0 until DIRECTIONS_COUNT) {
+      newPreferences.preferences(i) = preferences(i) + other.preferences(i)
+    }
+    newPreferences
   }
 
   private def normalize(direction:Int) = {
