@@ -10,9 +10,9 @@ class InputParser(input:String) {
 
   val functionName = parsedFunctionName
 
-  val isWelcomeFunction = functionName == "Welcome"
-  val isReactFunction = functionName == "React"
-  val isGoodbyeFunction = functionName == "Goodbye"
+  def isWelcomeFunction = functionName == "Welcome"
+  def isReactFunction = functionName == "React"
+  def isGoodbyeFunction = functionName == "Goodbye"
 
   val result = prepareResultObject
 

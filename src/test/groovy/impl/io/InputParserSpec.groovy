@@ -17,9 +17,9 @@ class InputParserSpec extends Specification {
         def parser = new InputParser(WELCOME_EXAMPLE)
 
         then:
-        parser.isGoodbyeFunction == false
-        parser.isReactFunction   == false
-        parser.isWelcomeFunction == true
+        parser.isGoodbyeFunction() == false
+        parser.isReactFunction()   == false
+        parser.isWelcomeFunction() == true
 
         parser.result() instanceof WelcomeFunction
 

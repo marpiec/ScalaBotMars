@@ -1,5 +1,5 @@
 import impl.function.ReactFunction
-import impl.io.{InputParser}
+import impl.io.InputParser
 import impl.reactor.ReactHandler
 
 class ControlFunction {
@@ -7,7 +7,9 @@ class ControlFunction {
 
     try {
       //println(input)
+      val startTime = System.currentTimeMillis()
       val response = tryToRespond(input)
+      println("Response time: "+(System.currentTimeMillis() - startTime))
       //
       println(response)
       //Thread.sleep(1000)

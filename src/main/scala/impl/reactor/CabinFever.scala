@@ -1,7 +1,7 @@
 package impl.reactor
 
 import impl.analyser.{DirectionCalculator, PathFinder, ViewAnalyser}
-import impl.data.{XY, DirectionPreferences}
+import impl.data.{EntitiesTypes, XY, DirectionPreferences}
 
 /**
  * 
@@ -12,30 +12,26 @@ class CabinFever(val viewAnalyser:ViewAnalyser, val distanceMap:Array[Array[Int]
 
   val HORIZON = 10
 
+  val pathFinder = new PathFinder(viewAnalyser)
+
   def getPreferences():DirectionPreferences = {
 
     val directionPreferences = new DirectionPreferences()
 
-    val pathFinder = new PathFinder(viewAnalyser)
-
     for (y <- -HORIZON until HORIZON) {
-      val path: List[XY] = pathFinder.findShortestPathTo(new XY(HORIZON, y), distanceMap)
-      increatePreferences(path, directionPreferences)
+      increasePreferencesForTarget(new XY(HORIZON, y), directionPreferences)
     }
 
     for (y <- -HORIZON until HORIZON) {
-      val path: List[XY] = pathFinder.findShortestPathTo(new XY(-HORIZON, y), distanceMap)
-      increatePreferences(path, directionPreferences)
+      increasePreferencesForTarget(new XY(-HORIZON, y), directionPreferences)
     }
 
     for (x <- -HORIZON+1 until HORIZON-1) {
-      val path: List[XY] = pathFinder.findShortestPathTo(new XY(x, HORIZON), distanceMap)
-      increatePreferences(path, directionPreferences)
+      increasePreferencesForTarget(new XY(x, HORIZON), directionPreferences)
     }
 
     for (x <- -HORIZON+1 until HORIZON-1) {
-      val path: List[XY] = pathFinder.findShortestPathTo(new XY(x, -HORIZON), distanceMap)
-      increatePreferences(path, directionPreferences)
+      increasePreferencesForTarget(new XY(x, -HORIZON), directionPreferences)
     }
 
     println("CabinFever preferences: "+directionPreferences)
@@ -62,10 +58,14 @@ class CabinFever(val viewAnalyser:ViewAnalyser, val distanceMap:Array[Array[Int]
     directionPreferences
   }
 
-  def increatePreferences(path: List[XY], directionPreferences: DirectionPreferences) {
-    if (path.nonEmpty) {
-      val firstStep = path.head
-      directionPreferences.increasePreference(DirectionCalculator.getDirection(firstStep.x, firstStep.y), 0.01 * path.size)
+
+  def increasePreferencesForTarget(relativeTarget: XY, directionPreferences: DirectionPreferences) {
+    val targetViewPoint = viewAnalyser.getViewPointRelative(relativeTarget.x, relativeTarget.y)
+    if (!EntitiesTypes.isInvisible(targetViewPoint)) {
+      val step: XY = pathFinder.findNextStepTo(relativeTarget)
+      directionPreferences.increasePreference(DirectionCalculator.getDirection(step.x, step.y), 0.01 * calculateRequiredSteps(relativeTarget))
     }
   }
+
+  def calculateRequiredSteps(relativeSource:XY): Int = math.max(math.abs(relativeSource.x), math.abs(relativeSource.y))
 }

@@ -13,27 +13,28 @@ class Fear(val viewAnalyser:ViewAnalyser, val distanceMap:Array[Array[Int]]) {
 
      goodPlantsRelative.foreach(plantPositionRelative => {
        val pathFinder = new PathFinder(viewAnalyser)
-       val path = pathFinder.findShortestPathTo(plantPositionRelative, distanceMap)
-       if (path.nonEmpty) {
-         val firstStep = path.head
-         println("Beast in "+plantPositionRelative+ "  \tdirection "+firstStep+"   \t distance:"+path.size)
+       val pathSize = calculateRequiredSteps(plantPositionRelative)
+       val nextStep = pathFinder.findNextStepTo(plantPositionRelative)
+       //val path = pathFinder.findShortestPathTo(plantPositionRelative, distanceMap)
+
+         println("Beast in "+plantPositionRelative+ "  \tdirection "+nextStep+"   \t distance:"+pathSize)
 
 
          val pathCost = if (EntitiesTypes.isBadBeast(viewAnalyser.getViewPointFromRelative(plantPositionRelative)))
-           math.pow(path.size * 1.5, 1.5)
+           math.pow(pathSize * 1.5, 1.5)
          else if(EntitiesTypes.isBadPlant(viewAnalyser.getViewPointFromRelative(plantPositionRelative)))
-           path.size
+           pathSize
          else if(EntitiesTypes.isEnemyBot(viewAnalyser.getViewPointFromRelative(plantPositionRelative)))
-           math.pow(path.size, 0.5)
+           math.pow(pathSize, 0.5)
          else if(EntitiesTypes.isEnemyMiniBot(viewAnalyser.getViewPointFromRelative(plantPositionRelative)))
-           math.pow(path.size, 0.5)
+           math.pow(pathSize, 0.5)
          else
            1.0
 
          val nutritionPrize = if (EntitiesTypes.isBadBeast(viewAnalyser.getViewPointFromRelative(plantPositionRelative)))
            200
          else if(EntitiesTypes.isBadPlant(viewAnalyser.getViewPointFromRelative(plantPositionRelative))) {
-           if(path.size > 1) 0 else 150
+           if(pathSize > 1) 0 else 150
          } else if(EntitiesTypes.isEnemyBot(viewAnalyser.getViewPointFromRelative(plantPositionRelative)))
            1000
          else if(EntitiesTypes.isEnemyMiniBot(viewAnalyser.getViewPointFromRelative(plantPositionRelative)))
@@ -41,8 +42,8 @@ class Fear(val viewAnalyser:ViewAnalyser, val distanceMap:Array[Array[Int]]) {
          else
           1
 
-           directionPreferences.decreasePreference(DirectionCalculator.getDirection(firstStep.x, firstStep.y), nutritionPrize / pathCost) // w zaleznosci od odleglosci
-       }
+           directionPreferences.decreasePreference(DirectionCalculator.getDirection(nextStep.x, nextStep.y), nutritionPrize / pathCost) // w zaleznosci od odleglosci
+
      })
 
      println("Direction fear: "+directionPreferences)
@@ -50,6 +51,6 @@ class Fear(val viewAnalyser:ViewAnalyser, val distanceMap:Array[Array[Int]]) {
      directionPreferences
    }
 
-
+  def calculateRequiredSteps(relativeSource:XY): Int = math.max(math.abs(relativeSource.x), math.abs(relativeSource.y))
 
  }
