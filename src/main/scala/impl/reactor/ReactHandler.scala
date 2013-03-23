@@ -1,9 +1,10 @@
 package impl.reactor
 
 import impl.function.ReactFunction
-import impl.command.{Move}
+import impl.command.{Commands, Move}
 import impl.data.{EntitiesTypes, XY}
 import impl.analyser.{DistanceMapCreator2, DistanceMapCreator, DirectionCalculator, ViewAnalyser}
+import impl.command.debug.DrawLine
 
 class ReactHandler(val reactFunction: ReactFunction) {
 
@@ -46,7 +47,8 @@ class ReactHandler(val reactFunction: ReactFunction) {
       triesCount+=0
     } while ((EntitiesTypes.isWall(targetPoint) || EntitiesTypes.isBadBeast(targetPoint) || EntitiesTypes.isBadPlant(targetPoint)) && triesCount < DirectionCalculator.DIRECTIONS_COUNT)
 
-    new Move(step)
+    val commands = new Commands()
+    commands.addCommand(new Move(step))
 
 
   }

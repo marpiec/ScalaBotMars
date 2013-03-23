@@ -3,7 +3,7 @@ package impl.command
 /**
  * 
  */
-class Set(val state:Map[String, String]) {
+class Set(val state:Map[String, String]) extends Command {
   override def toString: String = {
     val sb = new StringBuilder("Set(")
     var nonFirst = false
