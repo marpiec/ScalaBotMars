@@ -31,6 +31,7 @@ class InputParser(input:String) {
         getXYParamOption("master"),
         getXYParamOption("collision"),
         parsedParams.getOrElse("slaves", "0").toInt,
+        parsedParams.getOrElse("role", "master"),
         null //other params
       )
     } else if (isGoodbyeFunction) {

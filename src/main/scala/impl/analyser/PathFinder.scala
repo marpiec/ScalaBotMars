@@ -2,6 +2,11 @@ package impl.analyser
 
 import impl.data.{EntitiesTypes, XY}
 
+object PathFinder {
+  def calculateRequiredSteps(relativeSource:XY): Int = math.max(math.abs(relativeSource.x), math.abs(relativeSource.y))
+  def calculateRequiredSteps(relativeSource:XY,relativeDestination:XY): Int = math.max(math.abs(relativeSource.x-relativeDestination.x), math.abs(relativeSource.y-relativeDestination.y))
+}
+
 class PathFinder(viewAnalyser: ViewAnalyser) {
 
   val viewDistance = viewAnalyser.viewDistance

@@ -1,18 +1,17 @@
 import impl.function.ReactFunction
 import impl.io.InputParser
-import impl.reactor.ReactHandler
+import impl.reactor.{MiniBotReactHandler, BotReactHandler}
 
 class ControlFunction {
   def respond(input: String): String = {
 
     try {
-      //println(input)
-      val startTime = System.currentTimeMillis()
       val response = tryToRespond(input)
-      println("Response time: "+(System.currentTimeMillis() - startTime))
-      //
+
+      //Thread.sleep(150)
+
       println(response)
-      //Thread.sleep(1000)
+
       response.toString
     } catch {
       case e => {
@@ -28,7 +27,12 @@ class ControlFunction {
     val parser = new InputParser(input)
 
     if (parser.isReactFunction) {
-      new ReactHandler(parser.result.asInstanceOf[ReactFunction]).respond()
+      val reactFunction = parser.result.asInstanceOf[ReactFunction]
+      if(reactFunction.generation == 0) {
+        new BotReactHandler(reactFunction).respond()
+      } else {
+        new MiniBotReactHandler(reactFunction).respond()
+      }
     } else {
       ""
     }

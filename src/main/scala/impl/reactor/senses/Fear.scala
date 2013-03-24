@@ -1,23 +1,23 @@
-package impl.reactor
+package impl.reactor.senses
 
 import impl.analyser.{DirectionCalculator, PathFinder, ViewAnalyser}
 import impl.data.{EntitiesTypes, XY, DirectionPreferences}
 
-class Fear(val viewAnalyser:ViewAnalyser, val distanceMap:Array[Array[Int]]) {
+class Fear(val viewAnalyser:ViewAnalyser) {
 
    def getPreferences():DirectionPreferences = {
 
      val directionPreferences = new DirectionPreferences()
 
-     val goodPlantsRelative: List[XY] = viewAnalyser.badPlants ::: viewAnalyser.badBeasts ::: viewAnalyser.enemyMiniBot ::: viewAnalyser.enemyBot
+     val goodPlantsRelative: List[XY] = viewAnalyser.badPlants ::: viewAnalyser.badBeasts ::: viewAnalyser.enemyMiniBots ::: viewAnalyser.enemyBots
 
      goodPlantsRelative.foreach(plantPositionRelative => {
        val pathFinder = new PathFinder(viewAnalyser)
-       val pathSize = calculateRequiredSteps(plantPositionRelative)
+       val pathSize = PathFinder.calculateRequiredSteps(plantPositionRelative)
        val nextStep = pathFinder.findNextStepTo(plantPositionRelative)
        //val path = pathFinder.findShortestPathTo(plantPositionRelative, distanceMap)
 
-         println("Beast in "+plantPositionRelative+ "  \tdirection "+nextStep+"   \t distance:"+pathSize)
+         //println("Beast in "+plantPositionRelative+ "  \tdirection "+nextStep+"   \t distance:"+pathSize)
 
 
          val pathCost = if (EntitiesTypes.isBadBeast(viewAnalyser.getViewPointFromRelative(plantPositionRelative)))
@@ -32,7 +32,7 @@ class Fear(val viewAnalyser:ViewAnalyser, val distanceMap:Array[Array[Int]]) {
            1.0
 
          val nutritionPrize = if (EntitiesTypes.isBadBeast(viewAnalyser.getViewPointFromRelative(plantPositionRelative)))
-           200
+           if(pathSize > 7) 0 else 200
          else if(EntitiesTypes.isBadPlant(viewAnalyser.getViewPointFromRelative(plantPositionRelative))) {
            if(pathSize > 1) 0 else 150
          } else if(EntitiesTypes.isEnemyBot(viewAnalyser.getViewPointFromRelative(plantPositionRelative)))
@@ -42,15 +42,17 @@ class Fear(val viewAnalyser:ViewAnalyser, val distanceMap:Array[Array[Int]]) {
          else
           1
 
+       if(EntitiesTypes.isBadPlant(viewAnalyser.getViewPointFromRelative(plantPositionRelative))) {
+         directionPreferences.decreasePreferenceSharp(DirectionCalculator.getDirection(nextStep.x, nextStep.y), nutritionPrize / pathCost) // w zaleznosci od odleglosci
+       } else {
            directionPreferences.decreasePreference(DirectionCalculator.getDirection(nextStep.x, nextStep.y), nutritionPrize / pathCost) // w zaleznosci od odleglosci
+       }
 
      })
 
-     println("Direction fear: "+directionPreferences)
+     //println("Direction fear: "+directionPreferences)
 
      directionPreferences
    }
-
-  def calculateRequiredSteps(relativeSource:XY): Int = math.max(math.abs(relativeSource.x), math.abs(relativeSource.y))
 
  }

@@ -21,8 +21,10 @@ class ViewAnalyser(view: String) {
   def badPlants = findEntitiesOfType(EntitiesTypes.BAD_PLANT)
   def badBeasts = findEntitiesOfType(EntitiesTypes.BAD_BEAST)
 
-  def enemyBot = findEntitiesOfType(EntitiesTypes.ENEMY_BOT)
-  def enemyMiniBot = findEntitiesOfType(EntitiesTypes.ENEMY_MINI_BOT)
+  def enemyBots = findEntitiesOfType(EntitiesTypes.ENEMY_BOT)
+  def enemyMiniBots = findEntitiesOfType(EntitiesTypes.ENEMY_MINI_BOT)
+
+  def myMiniBots = findEntitiesOfType(EntitiesTypes.MY_MINI_BOT)
 
 
   private def findEntitiesOfType(entityType:Char):List[XY] = {

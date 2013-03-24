@@ -50,10 +50,18 @@ class DirectionPreferences {
     bestDirection
   }
 
-  def sumPreferences(other:DirectionPreferences, scale:Double): DirectionPreferences = {
+  def +(other:DirectionPreferences): DirectionPreferences = {
     val newPreferences = new DirectionPreferences()
     for (i <- 0 until DIRECTIONS_COUNT) {
-      newPreferences.preferences(i) = preferences(i) + other.preferences(i) * scale
+      newPreferences.preferences(i) = preferences(i) + other.preferences(i)
+    }
+    newPreferences
+  }
+
+  def scale(factor:Double) = {
+    val newPreferences = new DirectionPreferences()
+    for (i <- 0 until DIRECTIONS_COUNT) {
+      newPreferences.preferences(i) = preferences(i)*factor
     }
     newPreferences
   }

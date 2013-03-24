@@ -4,7 +4,7 @@ import impl.data.XY
 
 class ReactFunction(val generation: Int, val name: String, val time: Int, val view: String,
                     val energy: Int, val masterOption: Option[XY], val collisionOption: Option[XY],
-                    val slaves: Int, val other: Map[String, String]) {
+                    val slaves: Int, val role: String, val other: Map[String, String]) {
 
 
   val viewDistance = calculateViewDistance

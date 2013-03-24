@@ -1,9 +1,9 @@
-package impl.reactor
+package impl.reactor.senses
 
 import impl.analyser.{PathFinder, DirectionCalculator, ViewAnalyser}
 import impl.data.{EntitiesTypes, XY, DirectionPreferences}
 
-class Hunger(val viewAnalyser:ViewAnalyser, distanceMap:Array[Array[Int]]) {
+class Hunger(viewAnalyser:ViewAnalyser) {
 
   def getPreferences():DirectionPreferences = {
 
@@ -13,11 +13,11 @@ class Hunger(val viewAnalyser:ViewAnalyser, distanceMap:Array[Array[Int]]) {
 
     goodPlantsRelative.foreach(plantPositionRelative => {
       val pathFinder = new PathFinder(viewAnalyser)
-      val pathSize = calculateRequiredSteps(plantPositionRelative)
+      val pathSize = PathFinder.calculateRequiredSteps(plantPositionRelative)
       val nextStep = pathFinder.findNextStepTo(plantPositionRelative)
       //val path = pathFinder.findShortestPathTo(plantPositionRelative, distanceMap)
 
-        println("For food in "+plantPositionRelative+ "  \tdirection "+nextStep+"   \t distance:"+pathSize)
+        //println("For food in "+plantPositionRelative+ "  \tdirection "+nextStep+"   \t distance:"+pathSize)
 
         val pathCost = if (EntitiesTypes.isGoodBeast(viewAnalyser.getViewPointFromRelative(plantPositionRelative)))
           math.pow(pathSize * 1.5, 1.5)
@@ -32,11 +32,9 @@ class Hunger(val viewAnalyser:ViewAnalyser, distanceMap:Array[Array[Int]]) {
           directionPreferences.increasePreference(DirectionCalculator.getDirection(nextStep.x, nextStep.y), nutritionPrize / pathCost) // w zaleznosci od odleglosci
     })
 
-    println("Direction preferences: "+directionPreferences)
+   // println("Direction preferences: "+directionPreferences)
 
     directionPreferences
   }
-
-  def calculateRequiredSteps(relativeSource:XY): Int = math.max(math.abs(relativeSource.x), math.abs(relativeSource.y))
 
 }

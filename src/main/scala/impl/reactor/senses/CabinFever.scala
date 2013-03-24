@@ -1,4 +1,4 @@
-package impl.reactor
+package impl.reactor.senses
 
 import impl.analyser.{DirectionCalculator, PathFinder, ViewAnalyser}
 import impl.data.{EntitiesTypes, XY, DirectionPreferences}
@@ -6,7 +6,7 @@ import impl.data.{EntitiesTypes, XY, DirectionPreferences}
 /**
  * 
  */
-class CabinFever(val viewAnalyser:ViewAnalyser, val distanceMap:Array[Array[Int]]) {
+class CabinFever(viewAnalyser:ViewAnalyser) {
 
   val viewSize = viewAnalyser.viewSize
 
@@ -34,7 +34,7 @@ class CabinFever(val viewAnalyser:ViewAnalyser, val distanceMap:Array[Array[Int]
       increasePreferencesForTarget(new XY(x, -HORIZON), directionPreferences)
     }
 
-    println("CabinFever preferences: "+directionPreferences)
+    //println("CabinFever preferences: "+directionPreferences)
 
     //println(distanceMap.toString)
 
@@ -63,9 +63,7 @@ class CabinFever(val viewAnalyser:ViewAnalyser, val distanceMap:Array[Array[Int]
     val targetViewPoint = viewAnalyser.getViewPointRelative(relativeTarget.x, relativeTarget.y)
     if (!EntitiesTypes.isInvisible(targetViewPoint)) {
       val step: XY = pathFinder.findNextStepTo(relativeTarget)
-      directionPreferences.increasePreference(DirectionCalculator.getDirection(step.x, step.y), 0.01 * calculateRequiredSteps(relativeTarget))
+      directionPreferences.increasePreference(DirectionCalculator.getDirection(step.x, step.y), 0.01 * PathFinder.calculateRequiredSteps(relativeTarget))
     }
   }
-
-  def calculateRequiredSteps(relativeSource:XY): Int = math.max(math.abs(relativeSource.x), math.abs(relativeSource.y))
 }

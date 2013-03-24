@@ -4,10 +4,16 @@ package impl.command
  * @author Marcin Pieciukiewicz
  */
 class Commands {
+
+
   var commands = List[Command]()
 
   def addCommand(command:Command) {
     commands ::= command
+  }
+
+  def addMultipleCommands(multipleCommands: List[Command]) {
+    commands :::= multipleCommands
   }
 
   override def toString: String = {
@@ -21,7 +27,6 @@ class Commands {
       }
       sb.append(command)
     }
-    sb.append(")")
     sb.toString()
   }
 }
