@@ -9,22 +9,18 @@ class Hunger(viewAnalyser: ViewAnalyser) {
 
     val directionPreferences = new DirectionPreferences()
 
-    val goodPlantsRelative: List[XY] = viewAnalyser.goodPlants ::: viewAnalyser.goodBeasts
+    val goodEntitiesRelative: List[XY] = viewAnalyser.goodPlants ::: viewAnalyser.goodBeasts
 
-    goodPlantsRelative.foreach(plantPositionRelative => {
-      val pathFinder = new PathFinder(viewAnalyser)
-      val pathSize = PathFinder.calculateRequiredSteps(plantPositionRelative)
-      val nextStep = pathFinder.findNextStepTo(plantPositionRelative)
-      //val path = pathFinder.findShortestPathTo(plantPositionRelative, distanceMap)
+    goodEntitiesRelative.foreach(entityPositionRelative => {
 
-      //println("For food in "+plantPositionRelative+ "  \tdirection "+nextStep+"   \t distance:"+pathSize)
+      val (nextStep, pathLength) = PathFinder.findNextStepAndDistance(viewAnalyser, entityPositionRelative)
 
-      val pathCost = if (EntitiesTypes.isGoodBeast(viewAnalyser.getViewPointFromRelative(plantPositionRelative)))
-        math.pow(pathSize * 1.5, 1.5)
+      val pathCost = if (EntitiesTypes.isGoodBeast(viewAnalyser.getViewPointFromRelative(entityPositionRelative)))
+        math.pow(pathLength * 1.5, 1.5)
       else
-        math.pow(pathSize, 1.5)
+        math.pow(pathLength, 1.5)
 
-      val nutritionPrize = if (EntitiesTypes.isGoodBeast(viewAnalyser.getViewPointFromRelative(plantPositionRelative)))
+      val nutritionPrize = if (EntitiesTypes.isGoodBeast(viewAnalyser.getViewPointFromRelative(entityPositionRelative)))
         200
       else
         100

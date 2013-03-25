@@ -3,17 +3,16 @@ package impl.servercommunication.command
 /**
  * @author Marcin Pieciukiewicz
  */
-class Commands {
+class Commands(val commands: List[Command]) {
 
+  def this(command:Command) = this(List(command))
 
-  var commands = List[Command]()
-
-  def addCommand(command: Command) {
-    commands ::= command
+  def ::(command: Command):Commands = {
+    new Commands(command :: commands)
   }
 
-  def addMultipleCommands(multipleCommands: List[Command]) {
-    commands :::= multipleCommands
+  def :::(otherCommands: Commands):Commands = {
+    new Commands(otherCommands.commands ::: commands)
   }
 
   override def toString: String = {

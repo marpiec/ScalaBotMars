@@ -3,18 +3,13 @@ package impl.analyser
 import impl.data.{EntitiesTypes, XY}
 
 object PathFinder {
-  def calculateRequiredSteps(relativeSource: XY): Int = math.max(math.abs(relativeSource.x), math.abs(relativeSource.y))
+  def calculateRequiredSteps(relativeXY: XY): Int = math.max(math.abs(relativeXY.x), math.abs(relativeXY.y))
 
   def calculateRequiredSteps(source: XY, destination: XY): Int = math.max(math.abs(source.x - destination.x),
     math.abs(source.y - destination.y))
 
-}
-
-class PathFinder(viewAnalyser: ViewAnalyser) {
-
-  val viewDistance = viewAnalyser.viewDistance
-
-  def findNextStepTo(relativeTarget: XY): XY = {
+  def findNextStepTo(viewAnalyser: ViewAnalyser, relativeTarget: XY): XY = {
+    val viewDistance = viewAnalyser.viewDistance
     var lowestLineDistanceSquared = Double.MaxValue
     var lowestDistanceStep: XY = null
 
@@ -33,7 +28,9 @@ class PathFinder(viewAnalyser: ViewAnalyser) {
     lowestDistanceStep
   }
 
+  def findNextStepAndDistance(viewAnalyser: ViewAnalyser, relativeTarget: XY):(XY, Int) = {
+    (findNextStepTo(viewAnalyser, relativeTarget), calculateRequiredSteps(relativeTarget))
+  }
+
   private def calculateLineDistanceSquared(x: Int, y: Int) = x * x + y * y
-
-
 }

@@ -17,19 +17,19 @@ class ViewAnalyser(view: String) {
 
   def getViewPointRelative(x: Int, y: Int): Char = view.charAt((y + viewDistance) * viewSize + (x + viewDistance))
 
-  def goodPlants = findEntitiesOfType(EntitiesTypes.GOOD_PLANT)
+  val goodPlants = findEntitiesOfType(EntitiesTypes.GOOD_PLANT)
 
-  def goodBeasts = findEntitiesOfType(EntitiesTypes.GOOD_BEAST)
+  val goodBeasts = findEntitiesOfType(EntitiesTypes.GOOD_BEAST)
 
-  def badPlants = findEntitiesOfType(EntitiesTypes.BAD_PLANT)
+  val badPlants = findEntitiesOfType(EntitiesTypes.BAD_PLANT)
 
-  def badBeasts = findEntitiesOfType(EntitiesTypes.BAD_BEAST)
+  val badBeasts = findEntitiesOfType(EntitiesTypes.BAD_BEAST)
 
-  def enemyBots = findEntitiesOfType(EntitiesTypes.ENEMY_BOT)
+  val enemyBots = findEntitiesOfType(EntitiesTypes.ENEMY_BOT)
 
-  def enemyMiniBots = findEntitiesOfType(EntitiesTypes.ENEMY_MINI_BOT)
+  val enemyMiniBots = findEntitiesOfType(EntitiesTypes.ENEMY_MINI_BOT)
 
-  def myMiniBots = findEntitiesOfType(EntitiesTypes.MY_MINI_BOT)
+  val myMiniBots = findEntitiesOfType(EntitiesTypes.MY_MINI_BOT)
 
 
   private def findEntitiesOfType(entityType: Char): List[XY] = {

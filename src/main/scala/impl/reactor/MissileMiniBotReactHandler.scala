@@ -10,7 +10,7 @@ import impl.servercommunication.function.ReactFunction
  */
 class MissileMiniBotReactHandler(reactFunction: ReactFunction, viewAnalyser: ViewAnalyser) {
 
-  def respond(): List[Command] = {
+  def respond(): Commands = {
 
     val enemyMiniBots: List[XY] = viewAnalyser.enemyMiniBots
     val enemyBots: List[XY] = viewAnalyser.enemyBots
@@ -35,22 +35,18 @@ class MissileMiniBotReactHandler(reactFunction: ReactFunction, viewAnalyser: Vie
     if (commandOption.isEmpty) {
       new SetCommand(MiniBotRoles.HUNTER) :: new HunterMiniBotReactHandler(reactFunction, viewAnalyser).respond()
     } else {
-
-      List(commandOption.get)
+      new Commands(commandOption.get)
     }
-
   }
 
   def prepareExplodeCommandFor(possibleTargets: List[XY]): Option[Command] = {
     var closestPath = Int.MaxValue
     var closestPathDirection: XY = null
     possibleTargets.foreach(targetRelativePosition => {
-      val pathFinder = new PathFinder(viewAnalyser)
-      val pathSize = PathFinder.calculateRequiredSteps(targetRelativePosition)
-      val nextStep = pathFinder.findNextStepTo(targetRelativePosition)
+      val (nextStep, pathLength) = PathFinder.findNextStepAndDistance(viewAnalyser, targetRelativePosition)
 
-      if (pathSize < closestPath) {
-        closestPath = pathSize
+      if (pathLength < closestPath) {
+        closestPath = pathLength
         closestPathDirection = nextStep
       }
     })
@@ -64,12 +60,10 @@ class MissileMiniBotReactHandler(reactFunction: ReactFunction, viewAnalyser: Vie
   def prepareMoveCommand(possibleTargets: List[XY]): Command = {
     val preferences = new DirectionPreferences()
 
-    possibleTargets.foreach(targetPositionRelative => {
-      val pathFinder = new PathFinder(viewAnalyser)
-      val pathSize = PathFinder.calculateRequiredSteps(targetPositionRelative)
-      val nextStep = pathFinder.findNextStepTo(targetPositionRelative)
+    possibleTargets.foreach(targetRelativePosition => {
+      val (nextStep, pathLength) = PathFinder.findNextStepAndDistance(viewAnalyser, targetRelativePosition)
 
-      preferences.increasePreference(nextStep, 100 / pathSize)
+      preferences.increasePreference(nextStep, 100 / pathLength)
     })
     val step = DirectionAdvisor.findBestMoveFormPreferences(preferences, viewAnalyser)
     new Move(step)

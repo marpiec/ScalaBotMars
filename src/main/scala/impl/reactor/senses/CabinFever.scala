@@ -12,7 +12,6 @@ class CabinFever(viewAnalyser: ViewAnalyser) {
 
   val HORIZON = 10
 
-  val pathFinder = new PathFinder(viewAnalyser)
 
   def getPreferences(): DirectionPreferences = {
 
@@ -41,7 +40,7 @@ class CabinFever(viewAnalyser: ViewAnalyser) {
   def increasePreferencesForTarget(relativeTarget: XY, directionPreferences: DirectionPreferences) {
     val targetViewPoint = viewAnalyser.getViewPointRelative(relativeTarget.x, relativeTarget.y)
     if (!EntitiesTypes.isInvisible(targetViewPoint)) {
-      val step: XY = pathFinder.findNextStepTo(relativeTarget)
+      val step: XY = PathFinder.findNextStepTo(viewAnalyser, relativeTarget)
       directionPreferences.increasePreference(step, 0.01 * PathFinder.calculateRequiredSteps(relativeTarget))
     }
   }

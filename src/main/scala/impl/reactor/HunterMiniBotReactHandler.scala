@@ -11,7 +11,7 @@ import senses._
  */
 class HunterMiniBotReactHandler(reactFunction: ReactFunction, viewAnalyser: ViewAnalyser) {
 
-  def respond(): List[Command] = {
+  def respond(): Commands = {
 
     var multiplePreferences = List[DirectionPreferences]()
 
@@ -25,7 +25,7 @@ class HunterMiniBotReactHandler(reactFunction: ReactFunction, viewAnalyser: View
 
     val step: XY = DirectionAdvisor.findBestMoveFormPreferences(preferences, viewAnalyser)
 
-    List(new Move(step))
+    new Commands(new Move(step))
   }
 
 
