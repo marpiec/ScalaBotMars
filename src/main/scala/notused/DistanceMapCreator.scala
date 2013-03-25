@@ -1,6 +1,7 @@
-package impl.analyser
+package notused
 
 import impl.data.{XY, EntitiesTypes}
+import impl.analyser.ViewAnalyser
 
 /**
  * 

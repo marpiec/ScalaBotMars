@@ -1,7 +1,8 @@
-package impl.analyser
+package notused
 
 import scala.Array
 import impl.data.{EntitiesTypes, XY}
+import impl.analyser.ViewAnalyser
 
 /**
  * @author Marcin Pieciukiewicz

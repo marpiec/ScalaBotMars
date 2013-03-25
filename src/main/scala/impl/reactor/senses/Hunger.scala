@@ -1,6 +1,6 @@
 package impl.reactor.senses
 
-import impl.analyser.{PathFinder, DirectionCalculator, ViewAnalyser}
+import impl.analyser.{PathFinder, ViewAnalyser}
 import impl.data.{EntitiesTypes, XY, DirectionPreferences}
 
 class Hunger(viewAnalyser:ViewAnalyser) {

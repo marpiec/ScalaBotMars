@@ -1,6 +1,5 @@
 package impl.data
 
-import impl.analyser.DirectionCalculator
 import impl.languageutil.CollectionUtil
 
 /**
@@ -8,19 +7,19 @@ import impl.languageutil.CollectionUtil
  */
 class DirectionPreferences {
 
-  val DIRECTIONS_COUNT = DirectionCalculator.DIRECTIONS_COUNT
+  val DIRECTIONS_COUNT = Directions.DIRECTIONS_COUNT
 
-  var preferences: Array[Double] = Array.fill(DIRECTIONS_COUNT)(0.0)
+  val preferences: Array[Double] = Array.fill(DIRECTIONS_COUNT)(0.0)
 
   def getPreference(direction: Int) = preferences(direction)
 
   def increasePreference(step: XY, preferenceDiff: Double) {
     val direction = Directions.getDirectionFor(step)
     preferences(normalizeModulo(direction)) += preferenceDiff
-    preferences(normalizeModulo(direction-1)) += preferenceDiff/2
-    preferences(normalizeModulo(direction+1)) += preferenceDiff/2
-    preferences(normalizeModulo(direction-2)) += preferenceDiff/4
-    preferences(normalizeModulo(direction+2)) += preferenceDiff/4
+    preferences(normalizeModulo(direction - 1)) += preferenceDiff / 2
+    preferences(normalizeModulo(direction + 1)) += preferenceDiff / 2
+    preferences(normalizeModulo(direction - 2)) += preferenceDiff / 4
+    preferences(normalizeModulo(direction + 2)) += preferenceDiff / 4
   }
 
   def decreasePreference(step: XY, preferenceDiff: Double) {
@@ -35,16 +34,16 @@ class DirectionPreferences {
     preferences(normalizeModulo(direction)) -= preferenceDiff
   }
 
-  def findBestStep():XY = {
+  def findBestStep(): XY = {
     Directions.getStepForDirection(findBestDirection())
   }
 
-  def findBestDirection():Int = {
+  def findBestDirection(): Int = {
     CollectionUtil.findIndexOfMaxElement(preferences)
   }
 
 
-  def +(other:DirectionPreferences): DirectionPreferences = {
+  def +(other: DirectionPreferences): DirectionPreferences = {
     val newPreferences = new DirectionPreferences()
     for (i <- 0 until DIRECTIONS_COUNT) {
       newPreferences.preferences(i) = preferences(i) + other.preferences(i)
@@ -52,15 +51,15 @@ class DirectionPreferences {
     newPreferences
   }
 
-  def *(factor:Double) = {
+  def *(factor: Double) = {
     val newPreferences = new DirectionPreferences()
     for (i <- 0 until DIRECTIONS_COUNT) {
-      newPreferences.preferences(i) = preferences(i)*factor
+      newPreferences.preferences(i) = preferences(i) * factor
     }
     newPreferences
   }
 
-  private def normalizeModulo(direction:Int) = {
+  private def normalizeModulo(direction: Int) = {
     if (direction < 0) {
       direction + DIRECTIONS_COUNT
     } else if (direction >= DIRECTIONS_COUNT) {

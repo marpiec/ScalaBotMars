@@ -1,6 +1,6 @@
 package impl.reactor.senses
 
-import impl.analyser.{DirectionCalculator, PathFinder, ViewAnalyser}
+import impl.analyser.{PathFinder, ViewAnalyser}
 import impl.data.{EntitiesTypes, XY, DirectionPreferences}
 
 class Fear(val viewAnalyser:ViewAnalyser) {

@@ -1,9 +1,8 @@
 package impl.reactor
 
-import impl.analyser.{DirectionAdvisor, DirectionCalculator, PathFinder, ViewAnalyser}
+import impl.analyser.{DirectionAdvisor, ViewAnalyser}
 import impl.servercommunication.command._
-import debug.Say
-import impl.data.{EntitiesTypes, DirectionPreferences, XY}
+import impl.data.{DirectionPreferences, XY}
 import impl.servercommunication.function.ReactFunction
 import senses._
 

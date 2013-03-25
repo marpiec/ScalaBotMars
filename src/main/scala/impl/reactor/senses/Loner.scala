@@ -1,7 +1,7 @@
 package impl.reactor.senses
 
-import impl.analyser.{DirectionCalculator, PathFinder, ViewAnalyser}
-import impl.data.{EntitiesTypes, XY, DirectionPreferences}
+import impl.analyser.{PathFinder, ViewAnalyser}
+import impl.data.{XY, DirectionPreferences}
 
 /**
  * @author Marcin Pieciukiewicz

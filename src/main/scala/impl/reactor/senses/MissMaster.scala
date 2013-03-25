@@ -1,6 +1,6 @@
 package impl.reactor.senses
 
-import impl.analyser.{DirectionCalculator, PathFinder, ViewAnalyser}
+import impl.analyser.{PathFinder, ViewAnalyser}
 import impl.servercommunication.function.ReactFunction
 import impl.data.DirectionPreferences
 

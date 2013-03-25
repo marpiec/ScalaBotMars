@@ -1,6 +1,6 @@
 package impl.reactor.senses
 
-import impl.analyser.{DirectionCalculator, PathFinder, ViewAnalyser}
+import impl.analyser.{PathFinder, ViewAnalyser}
 import impl.data.{EntitiesTypes, XY, DirectionPreferences}
 
 /**
@@ -34,27 +34,6 @@ class CabinFever(viewAnalyser:ViewAnalyser) {
       increasePreferencesForTarget(new XY(x, -HORIZON), directionPreferences)
     }
 
-    //println("CabinFever preferences: "+directionPreferences)
-
-    //println(distanceMap.toString)
-
-    /*
-    for (y <- 0 until viewSize) {
-      for (x <- 0 until viewSize) {
-        if (distanceMap(x)(y) == Int.MaxValue) {
-          print("  .")
-        } else if(distanceMap(x)(y)<10) {
-          print("  ")
-          print(distanceMap(x)(y))
-        } else {
-          print(" ")
-          print(distanceMap(x)(y))
-        }
-      }
-      println()
-    }
-    println()
-               */
     directionPreferences
   }
 
