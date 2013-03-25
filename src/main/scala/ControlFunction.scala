@@ -12,7 +12,7 @@ class ControlFunction {
 
       //Thread.sleep(250)
 
-      println(response)
+      //println(response)
 
       response.toString
     } catch {

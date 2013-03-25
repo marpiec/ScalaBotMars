@@ -24,7 +24,7 @@ class LifeGuide(viewAnalyser: ViewAnalyser, reactFunction: ReactFunction, cabinF
       } else {
         //val currentDirection = Directions.getDirectionFor(currentDestination)
         val newDestination: XY = cabinFeverPreferences.findBestStep()
-        println("New destination: "+newDestination+" "+cabinFeverPreferences)
+        //println("New destination: "+newDestination+" "+cabinFeverPreferences)
         newDestinationOption = Option(newDestination)//
       }
 
