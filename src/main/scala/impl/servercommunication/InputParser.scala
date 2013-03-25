@@ -32,7 +32,8 @@ class InputParser(input: String) {
         getXYParamOption("collision"),
         parsedParams.getOrElse("slaves", "0").toInt,
         parsedParams.getOrElse("role", "master"),
-        null //other params
+        parsedParams.getOrElse("maxSlaves", "1000000").toInt,
+        parsedParams.getOrElse("timeFromCreation","0").toInt
       )
     } else if (isGoodbyeFunction) {
       new GoodbyeFunction(parsedParams.getOrElse("energy", "0").toInt)

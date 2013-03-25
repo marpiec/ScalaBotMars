@@ -10,7 +10,7 @@ object DirectionAdvisor {
   val DIRECTIONS_COUNT = Directions.DIRECTIONS_COUNT
   val VERY_LARGE_PREFERENCE_CHANGE = 1000000
 
-  def findBestMoveFormPreferences(preferences: DirectionPreferences, viewAnalyser: ViewAnalyser) = {
+  def findBestMoveFormPreferences(preferences: DirectionPreferences, viewAnalyser: ViewAnalyser, myMiniBotNotSafe:Boolean) = {
     var targetPoint: Char = '_'
     var step: XY = null
     var triesCount = 0
@@ -20,7 +20,7 @@ object DirectionAdvisor {
 
       triesCount += 1
       preferences.decreasePreferenceSharp(step, VERY_LARGE_PREFERENCE_CHANGE)
-    } while (EntitiesTypes.notSafeEntity(targetPoint) && triesCount < DIRECTIONS_COUNT)
+    } while ((EntitiesTypes.notSafeEntity(targetPoint) || myMiniBotNotSafe && EntitiesTypes.isMyMiniBot(targetPoint)) && triesCount < DIRECTIONS_COUNT)
     step
   }
 

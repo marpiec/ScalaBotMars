@@ -1,11 +1,13 @@
-import impl.servercommunication.function.ReactFunction
+import impl.servercommunication.command.SetCommand
+import impl.servercommunication.function.{WelcomeFunction, ReactFunction}
 import impl.reactor.{MiniBotReactHandler, BotReactHandler}
-import impl.servercommunication.InputParser
+import impl.servercommunication.{CustomStatus, InputParser}
 
 class ControlFunction {
   def respond(input: String): String = {
 
     try {
+      //println(input)
       val response = tryToRespond(input)
 
       //Thread.sleep(150)
@@ -26,6 +28,11 @@ class ControlFunction {
   def tryToRespond(input: String) = {
     val parser = new InputParser(input)
 
+    if (parser.isWelcomeFunction) {
+      val welcomeFunction = parser.result.asInstanceOf[WelcomeFunction]
+      welcomeFunction.maxSlaves
+      new SetCommand(Map({CustomStatus.MAX_SLAVES -> welcomeFunction.maxSlaves.toString}))
+    }
     if (parser.isReactFunction) {
       val reactFunction = parser.result.asInstanceOf[ReactFunction]
       if (reactFunction.generation == 0) {

@@ -3,8 +3,21 @@ package impl.servercommunication.command
 /**
  *
  */
-class SetCommand(role: String) extends Command {
+class SetCommand(params:Map[String, String]) extends Command {
   override def toString: String = {
-    "Set(role=" + role + ")"
+
+    val sb = new StringBuilder("Set(")
+
+    var notFirst = false
+    for ((key, value) <- params) {
+      if (notFirst) {
+        sb.append(",")
+      } else {
+        notFirst = true
+      }
+      sb.append(key).append("=").append(value);
+    }
+
+    sb.append(")").toString()
   }
 }

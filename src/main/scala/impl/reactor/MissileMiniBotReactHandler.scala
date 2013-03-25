@@ -4,6 +4,7 @@ import impl.analyser.{DirectionAdvisor, PathFinder, ViewAnalyser}
 import impl.servercommunication.command._
 import impl.data.{MiniBotRoles, DirectionPreferences, XY}
 import impl.servercommunication.function.ReactFunction
+import impl.servercommunication.CustomStatus
 
 /**
  * @author Marcin Pieciukiewicz
@@ -33,9 +34,11 @@ class MissileMiniBotReactHandler(reactFunction: ReactFunction, viewAnalyser: Vie
     }
 
     if (commandOption.isEmpty) {
-      new SetCommand(MiniBotRoles.HUNTER) :: new HunterMiniBotReactHandler(reactFunction, viewAnalyser).respond()
+      new SetCommand(Map({CustomStatus.ROLE -> MiniBotRoles.HUNTER})) :: new HunterMiniBotReactHandler(reactFunction, viewAnalyser).respond()
     } else {
-      new Commands(commandOption.get)
+      var commands = new Commands(commandOption.get)
+      commands ::= new SetCommand(Map({CustomStatus.TIME_FROM_CREATION -> (reactFunction.timeFromCreation + 1).toString}))
+      commands
     }
   }
 
@@ -65,7 +68,7 @@ class MissileMiniBotReactHandler(reactFunction: ReactFunction, viewAnalyser: Vie
 
       preferences.increasePreference(nextStep, 100 / pathLength)
     })
-    val step = DirectionAdvisor.findBestMoveFormPreferences(preferences, viewAnalyser)
+    val step = DirectionAdvisor.findBestMoveFormPreferences(preferences, viewAnalyser, true)
     new Move(step)
   }
 

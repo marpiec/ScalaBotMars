@@ -15,6 +15,8 @@ class Commands(val commands: List[Command]) {
     new Commands(otherCommands.commands ::: commands)
   }
 
+  def isEmpty = commands.isEmpty
+
   override def toString: String = {
     val sb = new StringBuilder()
     var nonFirst = false
