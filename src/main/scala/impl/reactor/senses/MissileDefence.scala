@@ -11,11 +11,10 @@ import impl.configuration.PrizesFunctions
 class MissileDefence(viewAnalyser: ViewAnalyser, slavesCount:Int, maxSlaves: Int) {
 
 
-  def calculateCommands(): Commands = {
+  def calculateCommands(): Option[Spawn] = {
 
     val targets: List[XY] = viewAnalyser.enemyMiniBots ::: viewAnalyser.enemyBots ::: viewAnalyser.badBeasts
     val myMiniBots: List[XY] = viewAnalyser.myMiniBots
-    var spawnCommands = new Commands(List())
 
     if (slavesCount < maxSlaves) {
       targets.foreach(target => {
@@ -27,14 +26,14 @@ class MissileDefence(viewAnalyser: ViewAnalyser, slavesCount:Int, maxSlaves: Int
             PathFinder.calculateRequiredSteps(myBotRelativePosition, target) < 10
           }) < 2
 
-          if (notEnoughMissilesNear && targets.size + 2 > myMiniBots.size) {
-            spawnCommands ::= new Spawn(nextStep, "antiMissile", 100, MiniBotRoles.MISSILE)
+          if (notEnoughMissilesNear && targets.size + 5 > myMiniBots.size) {
+            return Option(new Spawn(nextStep, "antiMissile", 100, MiniBotRoles.MISSILE))
           }
         }
 
       })
     }
-    spawnCommands
+    None
   }
 
 

@@ -36,6 +36,7 @@ class InputParser(input: String) {
         parsedParams.getOrElse(CustomStatus.MAX_SLAVES, "1000000").toInt,
         parsedParams.getOrElse(CustomStatus.TIME_FROM_CREATION,"0").toInt,
         XY.parse(parsedParams.getOrElse(CustomStatus.DESTINATION,"0:0")),
+        parsedParams.getOrElse(CustomStatus.DESTINATION_CHANGE_TIME, "0").toInt,
         LastSteps.parse(parsedParams.getOrElse(CustomStatus.LAST_STEPS,"0:0"))
       )
     } else if (isGoodbyeFunction) {

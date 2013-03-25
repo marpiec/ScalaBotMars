@@ -1,36 +1,45 @@
 package impl.analyser
 
-import impl.data.{EntitiesTypes, XY}
+import impl.data.XY
 
 object PathFinder {
+
+  val tanPi8 = math.tan(math.Pi / 8)
+
   def calculateRequiredSteps(relativeXY: XY): Int = math.max(math.abs(relativeXY.x), math.abs(relativeXY.y))
 
   def calculateRequiredSteps(source: XY, destination: XY): Int = math.max(math.abs(source.x - destination.x),
     math.abs(source.y - destination.y))
 
   def findNextStepTo(viewAnalyser: ViewAnalyser, relativeTarget: XY): XY = {
-    val viewDistance = viewAnalyser.viewDistance
-    var lowestLineDistanceSquared = Double.MaxValue
-    var lowestDistanceStep: XY = null
+    var newX = 0
+    var newY = 0
+    val absX = math.abs(relativeTarget.x).toDouble
+    val absY = math.abs(relativeTarget.y).toDouble
 
-    for (x <- -1 to 1) {
-      for (y <- -1 to 1) {
-        val viewPoint = viewAnalyser.getViewPoint(x + viewDistance, y + viewDistance)
-        if (EntitiesTypes.isSafeEntity(viewPoint)) {
-          val lineDistanceSquared = calculateLineDistanceSquared(relativeTarget.x - x, relativeTarget.y - y)
-          if (lineDistanceSquared < lowestLineDistanceSquared) {
-            lowestLineDistanceSquared = lineDistanceSquared
-            lowestDistanceStep = new XY(x, y)
-          }
-        }
-      }
+    if (absX < absY * tanPi8) {
+      newX = 0
+      newY = 1
+    } else if (absY < absX * tanPi8) {
+      newX = 1
+      newY = 0
+    } else {
+      newX = 1
+      newY = 1
     }
-    lowestDistanceStep
+
+    if (relativeTarget.x < 0) {
+      newX = -newX
+    }
+    if (relativeTarget.y < 0) {
+      newY = -newY
+    }
+
+    XY(newX, newY)
   }
 
-  def findNextStepAndDistance(viewAnalyser: ViewAnalyser, relativeTarget: XY):(XY, Int) = {
+  def findNextStepAndDistance(viewAnalyser: ViewAnalyser, relativeTarget: XY): (XY, Int) = {
     (findNextStepTo(viewAnalyser, relativeTarget), calculateRequiredSteps(relativeTarget))
   }
 
-  private def calculateLineDistanceSquared(x: Int, y: Int) = x * x + y * y
 }

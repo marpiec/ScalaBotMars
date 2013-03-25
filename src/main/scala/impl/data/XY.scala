@@ -2,6 +2,14 @@ package impl.data
 
 case class XY(x: Int, y: Int) {
 
+  def +(other:XY) = {
+    XY(x+other.x, y+other.y)
+  }
+
+  def *(scale:Int) = {
+    XY(x*scale, y*scale)
+  }
+
   override def toString = x + ":" + y
 
 }

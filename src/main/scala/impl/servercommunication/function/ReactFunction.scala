@@ -6,7 +6,8 @@ import impl.servercommunication.data.LastSteps
 class ReactFunction(val generation: Int, val name: String, val time: Int, val view: String,
                     val energy: Int, val masterOption: Option[XY], val collisionOption: Option[XY],
                     val slaves: Int, val role: String, val maxSlaves:Int,
-                    val timeFromCreation:Int, val destination: XY, val lastSteps:LastSteps) {
+                    val timeFromCreation:Int, val destination: XY,
+                    val destinationChangeTime:Int, val lastSteps:LastSteps) {
 
 
   val viewDistance = calculateViewDistance

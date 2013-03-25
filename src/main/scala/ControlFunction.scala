@@ -10,7 +10,7 @@ class ControlFunction {
       //println(input)
       val response = tryToRespond(input)
 
-      //Thread.sleep(150)
+      //Thread.sleep(250)
 
       println(response)
 

@@ -15,6 +15,11 @@ class LastSteps(val steps: List[XY]) {
      new LastSteps(newSteps)
   }
 
+  def isFilled = steps.size == LastSteps.MAX_SIZE
+
+  def calculateChange:XY = {
+    steps.foldLeft(XY.ZERO)(_ + _)
+  }
 
   override def toString: String = {
     val sb = new StringBuilder

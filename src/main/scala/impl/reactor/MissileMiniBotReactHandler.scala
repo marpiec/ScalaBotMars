@@ -68,7 +68,7 @@ class MissileMiniBotReactHandler(reactFunction: ReactFunction, viewAnalyser: Vie
 
       preferences.increasePreference(nextStep, 100 / pathLength)
     })
-    val step = DirectionAdvisor.findBestMoveFormPreferences(preferences, viewAnalyser, true)
+    val step = DirectionAdvisor.findBestMoveFromPreferences(preferences, viewAnalyser, true)
     new Move(step)
   }
 

@@ -17,19 +17,19 @@ class CabinFever(viewAnalyser: ViewAnalyser) {
 
     val preferences = new DirectionPreferences()
 
-    for (y <- -HORIZON until HORIZON) {
+    for (y <- -HORIZON to HORIZON) {
       increasePreferencesForTarget(new XY(HORIZON, y), preferences)
     }
 
-    for (y <- -HORIZON until HORIZON) {
+    for (y <- -HORIZON to HORIZON) {
       increasePreferencesForTarget(new XY(-HORIZON, y), preferences)
     }
 
-    for (x <- -HORIZON + 1 until HORIZON - 1) {
+    for (x <- -HORIZON + 1 to HORIZON - 1) {
       increasePreferencesForTarget(new XY(x, HORIZON), preferences)
     }
 
-    for (x <- -HORIZON + 1 until HORIZON - 1) {
+    for (x <- -HORIZON + 1 to HORIZON - 1) {
       increasePreferencesForTarget(new XY(x, -HORIZON), preferences)
     }
 
@@ -41,7 +41,7 @@ class CabinFever(viewAnalyser: ViewAnalyser) {
     val targetViewPoint = viewAnalyser.getViewPointRelative(relativeTarget.x, relativeTarget.y)
     if (!EntitiesTypes.isInvisible(targetViewPoint)) {
       val step: XY = PathFinder.findNextStepTo(viewAnalyser, relativeTarget)
-      directionPreferences.increasePreference(step, 0.01 * PathFinder.calculateRequiredSteps(relativeTarget))
+      directionPreferences.increasePreference(step, 0.1)
     }
   }
 }
