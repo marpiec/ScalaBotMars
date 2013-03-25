@@ -1,6 +1,6 @@
-package impl.io
+package impl.servercommunication
 
-import impl.function.{GoodbyeFunction, ReactFunction, WelcomeFunction}
+import impl.servercommunication.function.{GoodbyeFunction, ReactFunction, WelcomeFunction}
 import impl.data.XY
 
 
@@ -10,9 +10,9 @@ class InputParser(input:String) {
 
   val functionName = parsedFunctionName
 
-  def isWelcomeFunction = functionName == "Welcome"
-  def isReactFunction = functionName == "React"
-  def isGoodbyeFunction = functionName == "Goodbye"
+  val isWelcomeFunction = functionName == "Welcome"
+  val isReactFunction = functionName == "React"
+  val isGoodbyeFunction = functionName == "Goodbye"
 
   val result = prepareResultObject
 

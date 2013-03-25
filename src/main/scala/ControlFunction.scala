@@ -1,6 +1,6 @@
-import impl.function.ReactFunction
-import impl.io.InputParser
+import impl.servercommunication.function.ReactFunction
 import impl.reactor.{MiniBotReactHandler, BotReactHandler}
+import impl.servercommunication.InputParser
 
 class ControlFunction {
   def respond(input: String): String = {

@@ -19,7 +19,7 @@ class Loner(val viewAnalyser:ViewAnalyser) {
       val pathSize = PathFinder.calculateRequiredSteps(myMiniBotRelative)
       val nextStep = pathFinder.findNextStepTo(myMiniBotRelative)
 
-      preferences.decreasePreference(DirectionCalculator.getDirection(nextStep.x, nextStep.y), pathSize)
+      preferences.decreasePreference(nextStep, pathSize)
 
     })
 

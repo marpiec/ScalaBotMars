@@ -43,9 +43,9 @@ class Fear(val viewAnalyser:ViewAnalyser) {
           1
 
        if(EntitiesTypes.isBadPlant(viewAnalyser.getViewPointFromRelative(plantPositionRelative))) {
-         directionPreferences.decreasePreferenceSharp(DirectionCalculator.getDirection(nextStep.x, nextStep.y), nutritionPrize / pathCost) // w zaleznosci od odleglosci
+         directionPreferences.decreasePreferenceSharp(nextStep, nutritionPrize / pathCost) // w zaleznosci od odleglosci
        } else {
-           directionPreferences.decreasePreference(DirectionCalculator.getDirection(nextStep.x, nextStep.y), nutritionPrize / pathCost) // w zaleznosci od odleglosci
+           directionPreferences.decreasePreference(nextStep, nutritionPrize / pathCost) // w zaleznosci od odleglosci
        }
 
      })

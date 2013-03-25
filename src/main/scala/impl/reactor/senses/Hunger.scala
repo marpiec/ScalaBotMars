@@ -29,7 +29,7 @@ class Hunger(viewAnalyser:ViewAnalyser) {
         else
           100
 
-          directionPreferences.increasePreference(DirectionCalculator.getDirection(nextStep.x, nextStep.y), nutritionPrize / pathCost) // w zaleznosci od odleglosci
+          directionPreferences.increasePreference(nextStep, nutritionPrize / pathCost) // w zaleznosci od odleglosci
     })
 
    // println("Direction preferences: "+directionPreferences)

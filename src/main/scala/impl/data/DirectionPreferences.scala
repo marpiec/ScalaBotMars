@@ -1,6 +1,7 @@
 package impl.data
 
 import impl.analyser.DirectionCalculator
+import impl.languageutil.CollectionUtil
 
 /**
  * Direction preferences list contains values for each degree starting from north, clock wise.
@@ -13,42 +14,35 @@ class DirectionPreferences {
 
   def getPreference(direction: Int) = preferences(direction)
 
-  def setPreference(direction: Int, preference: Double) {
-    preferences(normalize(direction)) = preference
+  def increasePreference(step: XY, preferenceDiff: Double) {
+    val direction = Directions.getDirectionFor(step)
+    preferences(normalizeModulo(direction)) += preferenceDiff
+    preferences(normalizeModulo(direction-1)) += preferenceDiff/2
+    preferences(normalizeModulo(direction+1)) += preferenceDiff/2
+    preferences(normalizeModulo(direction-2)) += preferenceDiff/4
+    preferences(normalizeModulo(direction+2)) += preferenceDiff/4
   }
 
-  def increasePreference(direction: Int, preferenceDiff: Double) {
-    preferences(normalize(direction)) += preferenceDiff
-    preferences(normalize(direction-1)) += preferenceDiff/2
-    preferences(normalize(direction+1)) += preferenceDiff/2
-    preferences(normalize(direction-2)) += preferenceDiff/4
-    preferences(normalize(direction+2)) += preferenceDiff/4
+  def decreasePreference(step: XY, preferenceDiff: Double) {
+    increasePreference(step, -preferenceDiff)
   }
 
-  def decreasePreference(direction: Int, preferenceDiff: Double) {
-    preferences(normalize(direction)) -= preferenceDiff
-    preferences(normalize(direction-1)) -= preferenceDiff/2
-    preferences(normalize(direction+1)) -= preferenceDiff/2
-    preferences(normalize(direction-2)) -= preferenceDiff/4
-    preferences(normalize(direction+2)) -= preferenceDiff/4
+  def decreasePreferenceSharp(step: XY, preferenceDiff: Double) {
+    decreasePreferenceSharpForDirection(Directions.getDirectionFor(step), preferenceDiff)
   }
 
-  def decreasePreferenceSharp(direction: Int, preferenceDiff: Double) {
-    preferences(normalize(direction)) -= preferenceDiff
+  def decreasePreferenceSharpForDirection(direction: Int, preferenceDiff: Double) {
+    preferences(normalizeModulo(direction)) -= preferenceDiff
+  }
+
+  def findBestStep():XY = {
+    Directions.getStepForDirection(findBestDirection())
   }
 
   def findBestDirection():Int = {
-    var bestDirection = -1
-    var bestDirectionValue = - Double.MaxValue
-    for (i <- 0 until DIRECTIONS_COUNT) {
-      val preference = preferences(i)
-      if (preference > bestDirectionValue) {
-        bestDirection = i
-        bestDirectionValue = preference
-      }
-    }
-    bestDirection
+    CollectionUtil.findIndexOfMaxElement(preferences)
   }
+
 
   def +(other:DirectionPreferences): DirectionPreferences = {
     val newPreferences = new DirectionPreferences()
@@ -58,7 +52,7 @@ class DirectionPreferences {
     newPreferences
   }
 
-  def scale(factor:Double) = {
+  def *(factor:Double) = {
     val newPreferences = new DirectionPreferences()
     for (i <- 0 until DIRECTIONS_COUNT) {
       newPreferences.preferences(i) = preferences(i)*factor
@@ -66,7 +60,7 @@ class DirectionPreferences {
     newPreferences
   }
 
-  private def normalize(direction:Int) = {
+  private def normalizeModulo(direction:Int) = {
     if (direction < 0) {
       direction + DIRECTIONS_COUNT
     } else if (direction >= DIRECTIONS_COUNT) {

@@ -1,23 +1,22 @@
 package impl.reactor
 
-import impl.analyser.{DirectionCalculator, PathFinder, ViewAnalyser}
-import impl.command._
-import impl.data.{MiniBotRoles, EntitiesTypes, DirectionPreferences, XY}
-import impl.command.debug.Say
-import impl.function.ReactFunction
+import impl.analyser.{DirectionAdvisor, PathFinder, ViewAnalyser}
+import impl.servercommunication.command._
+import impl.data.{MiniBotRoles, DirectionPreferences, XY}
+import impl.servercommunication.function.ReactFunction
 
 /**
  * @author Marcin Pieciukiewicz
  */
-class MissileMiniBotReactHandler(reactFunction: ReactFunction, viewAnalyser:ViewAnalyser) {
+class MissileMiniBotReactHandler(reactFunction: ReactFunction, viewAnalyser: ViewAnalyser) {
 
-  def respond():List[Command] = {
+  def respond(): List[Command] = {
 
     val enemyMiniBots: List[XY] = viewAnalyser.enemyMiniBots
     val enemyBots: List[XY] = viewAnalyser.enemyBots
     val badBeasts: List[XY] = viewAnalyser.badBeasts
 
-    var commandOption:Option[Command] = None
+    var commandOption: Option[Command] = None
 
     commandOption = prepareExplodeCommandFor(enemyMiniBots).
       orElse(prepareExplodeCommandFor(enemyBots)).
@@ -27,7 +26,7 @@ class MissileMiniBotReactHandler(reactFunction: ReactFunction, viewAnalyser:View
     if (commandOption.isEmpty) {
 
       val allTargets = enemyMiniBots ::: enemyBots ::: badBeasts
-      if(allTargets.nonEmpty) {
+      if (allTargets.nonEmpty) {
         commandOption = Option(prepareMoveCommand(allTargets))
       }
 
@@ -44,7 +43,7 @@ class MissileMiniBotReactHandler(reactFunction: ReactFunction, viewAnalyser:View
 
   def prepareExplodeCommandFor(possibleTargets: List[XY]): Option[Command] = {
     var closestPath = Int.MaxValue
-    var closestPathDirection:XY = null
+    var closestPathDirection: XY = null
     possibleTargets.foreach(targetRelativePosition => {
       val pathFinder = new PathFinder(viewAnalyser)
       val pathSize = PathFinder.calculateRequiredSteps(targetRelativePosition)
@@ -55,7 +54,7 @@ class MissileMiniBotReactHandler(reactFunction: ReactFunction, viewAnalyser:View
         closestPathDirection = nextStep
       }
     })
-    if(closestPath <= 2) {
+    if (closestPath <= 2) {
       Option(new Explode(3))
     } else {
       None
@@ -70,33 +69,10 @@ class MissileMiniBotReactHandler(reactFunction: ReactFunction, viewAnalyser:View
       val pathSize = PathFinder.calculateRequiredSteps(targetPositionRelative)
       val nextStep = pathFinder.findNextStepTo(targetPositionRelative)
 
-      preferences.increasePreference(DirectionCalculator.getDirection(nextStep.x, nextStep.y), 100 / pathSize)
+      preferences.increasePreference(nextStep, 100 / pathSize)
     })
-    val step = findBestMoveFormPreferences(preferences)
+    val step = DirectionAdvisor.findBestMoveFormPreferences(preferences, viewAnalyser)
     new Move(step)
   }
 
-  private def findBestMoveFormPreferences(preferences: DirectionPreferences) = {
-    var targetPoint: Char = '_'
-    var step: XY = null
-    var triesCount = 0
-    do {
-      val direction = preferences.findBestDirection()
-
-      preferences.decreasePreferenceSharp(direction, 100)
-
-      //println("Best direction " + direction + " " + DirectionCalculator.getNextStepIntoDirection(direction))
-
-      step = DirectionCalculator.getNextStepIntoDirection(direction)
-      targetPoint = viewAnalyser.getViewPointRelative(step.x, step.y)
-
-      triesCount += 1
-    } while (targetPointIsNotSafe(targetPoint) && triesCount < DirectionCalculator.DIRECTIONS_COUNT)
-    step
-  }
-
-  def targetPointIsNotSafe(targetPoint: Char): Boolean = {
-    (EntitiesTypes.isWall(targetPoint) || EntitiesTypes.isBadBeast(targetPoint) ||
-      EntitiesTypes.isBadPlant(targetPoint))
-  }
 }

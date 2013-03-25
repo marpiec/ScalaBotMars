@@ -63,7 +63,7 @@ class CabinFever(viewAnalyser:ViewAnalyser) {
     val targetViewPoint = viewAnalyser.getViewPointRelative(relativeTarget.x, relativeTarget.y)
     if (!EntitiesTypes.isInvisible(targetViewPoint)) {
       val step: XY = pathFinder.findNextStepTo(relativeTarget)
-      directionPreferences.increasePreference(DirectionCalculator.getDirection(step.x, step.y), 0.01 * PathFinder.calculateRequiredSteps(relativeTarget))
+      directionPreferences.increasePreference(step, 0.01 * PathFinder.calculateRequiredSteps(relativeTarget))
     }
   }
 }

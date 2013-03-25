@@ -1,9 +1,10 @@
 package impl.io
 
+import impl.servercommunication.InputParser
 import impl.data.XY
-import impl.function.GoodbyeFunction
-import impl.function.WelcomeFunction
-import impl.function.ReactFunction
+import impl.servercommunication.function.GoodbyeFunction
+import impl.servercommunication.function.WelcomeFunction
+import impl.servercommunication.function.ReactFunction
 import spock.lang.Specification
 
 class InputParserSpec extends Specification {

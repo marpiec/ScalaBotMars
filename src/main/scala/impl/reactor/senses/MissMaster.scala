@@ -1,7 +1,7 @@
 package impl.reactor.senses
 
 import impl.analyser.{DirectionCalculator, PathFinder, ViewAnalyser}
-import impl.function.ReactFunction
+import impl.servercommunication.function.ReactFunction
 import impl.data.DirectionPreferences
 
 /**
@@ -22,7 +22,7 @@ class MissMaster(viewAnalyser:ViewAnalyser, reactFunction: ReactFunction) {
     val prize = reactFunction.energy / pathSize * (reactFunction.energy / 100)
 
 
-    preferences.increasePreference(DirectionCalculator.getDirection(nextStep.x, nextStep.y), prize)
+    preferences.increasePreference(nextStep, prize)
     preferences
   }
 }

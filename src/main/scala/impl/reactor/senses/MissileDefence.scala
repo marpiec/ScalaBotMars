@@ -1,6 +1,6 @@
 package impl.reactor.senses
 
-import impl.command.Spawn
+import impl.servercommunication.command.Spawn
 import impl.analyser.{PathFinder, ViewAnalyser}
 import impl.data.{MiniBotRoles, XY}
 

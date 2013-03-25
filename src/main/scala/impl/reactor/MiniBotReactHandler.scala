@@ -1,11 +1,11 @@
 package impl.reactor
 
-import impl.function.ReactFunction
+import impl.servercommunication.function.ReactFunction
 import impl.analyser.ViewAnalyser
 import senses.{Hunger}
 import impl.data.MiniBotRoles
-import impl.command.debug.Say
-import impl.command.{Move, Commands}
+import impl.servercommunication.command.debug.Say
+import impl.servercommunication.command.{Move, Commands}
 
 /**
  * @author Marcin Pieciukiewicz

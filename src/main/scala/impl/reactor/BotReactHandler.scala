@@ -1,10 +1,10 @@
 package impl.reactor
 
-import impl.function.ReactFunction
-import impl.command.{Commands, Move}
+import impl.servercommunication.function.ReactFunction
+import impl.servercommunication.command.{Commands, Move}
 import impl.data.{DirectionPreferences, EntitiesTypes, XY}
-import impl.analyser.{DistanceMapCreator2, DistanceMapCreator, DirectionCalculator, ViewAnalyser}
-import impl.command.debug.{Say, DrawLine}
+import impl.analyser._
+import impl.servercommunication.command.debug.{Say, DrawLine}
 import senses.{MissileDefence, Hunger, Fear, CabinFever}
 
 class BotReactHandler(reactFunction: ReactFunction) {
@@ -18,9 +18,9 @@ class BotReactHandler(reactFunction: ReactFunction) {
 
     var multiplePreferences = List[DirectionPreferences]()
 
-    multiplePreferences ::= new Hunger(viewAnalyser).getPreferences().scale(1.0)
-    multiplePreferences ::= new Fear(viewAnalyser).getPreferences().scale(1.0)
-    multiplePreferences ::= new CabinFever(viewAnalyser).getPreferences().scale(1.0)
+    multiplePreferences ::= new Hunger(viewAnalyser).getPreferences() * 1.0
+    multiplePreferences ::= new Fear(viewAnalyser).getPreferences() * 1.0
+    multiplePreferences ::= new CabinFever(viewAnalyser).getPreferences() * 1.0
 
 
     val missileDefence: MissileDefence = new MissileDefence(viewAnalyser)
@@ -30,7 +30,7 @@ class BotReactHandler(reactFunction: ReactFunction) {
     val preferences = multiplePreferences.foldLeft(new DirectionPreferences)(_ + _)
 
 
-    val step: XY = findBestMoveFormPreferences(preferences)
+    val step: XY = DirectionAdvisor.findBestMoveFormPreferences(preferences, viewAnalyser)
 
     val commands = new Commands()
     commands.addCommand(new Move(step))
@@ -39,28 +39,4 @@ class BotReactHandler(reactFunction: ReactFunction) {
 
   }
 
-  private def findBestMoveFormPreferences(preferences: DirectionPreferences) = {
-    var targetPoint: Char = '_'
-    var step: XY = null
-    var triesCount = 0
-    do {
-      val direction = preferences.findBestDirection()
-
-      preferences.decreasePreferenceSharp(direction, 100)
-
-      //println("Best direction " + direction + " " + DirectionCalculator.getNextStepIntoDirection(direction))
-
-      step = DirectionCalculator.getNextStepIntoDirection(direction)
-      targetPoint = viewAnalyser.getViewPointRelative(step.x, step.y)
-
-      triesCount += 1
-    } while (targetPointIsNotSafe(targetPoint) && triesCount < DirectionCalculator.DIRECTIONS_COUNT)
-    step
-  }
-
-
-  def targetPointIsNotSafe(targetPoint: Char): Boolean = {
-    (EntitiesTypes.isWall(targetPoint) || EntitiesTypes.isBadBeast(targetPoint) ||
-      EntitiesTypes.isBadPlant(targetPoint))
-  }
 }

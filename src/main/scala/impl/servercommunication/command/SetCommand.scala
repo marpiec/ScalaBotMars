@@ -1,4 +1,4 @@
-package impl.command
+package impl.servercommunication.command
 
 /**
  * 

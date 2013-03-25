@@ -27,4 +27,6 @@ object EntitiesTypes {
   def isGoodBeast(pointValue: Char)    = GOOD_BEAST == pointValue
   def isBadBeast(pointValue: Char)     = BAD_BEAST == pointValue
 
+  def notSafeEntity(pointValue: Char) = isWall(pointValue) || isBadBeast(pointValue) ||
+    isBadPlant(pointValue) || isEnemyBot(pointValue) || isEnemyMiniBot(pointValue)
 }

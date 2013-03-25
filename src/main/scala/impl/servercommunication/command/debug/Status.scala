@@ -1,6 +1,6 @@
-package impl.command.debug
+package impl.servercommunication.command.debug
 
-import impl.command.Command
+import impl.servercommunication.command.Command
 
 /**
  * @author Marcin Pieciukiewicz
