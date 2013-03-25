@@ -22,10 +22,6 @@ class DirectionPreferences {
     preferences(normalizeModulo(direction + 2)) += preferenceDiff / 4
   }
 
-  def decreasePreference(step: XY, preferenceDiff: Double) {
-    increasePreference(step, -preferenceDiff)
-  }
-
   def decreasePreferenceSharp(step: XY, preferenceDiff: Double) {
     decreasePreferenceSharpForDirection(Directions.getDirectionFor(step), preferenceDiff)
   }

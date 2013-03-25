@@ -5,6 +5,7 @@ import impl.servercommunication.command._
 import impl.data.{DirectionPreferences, XY}
 import impl.servercommunication.function.ReactFunction
 import senses._
+import impl.configuration.Parameters
 
 /**
  * @author Marcin Pieciukiewicz
@@ -15,11 +16,11 @@ class HunterMiniBotReactHandler(reactFunction: ReactFunction, viewAnalyser: View
 
     var multiplePreferences = List[DirectionPreferences]()
 
-    multiplePreferences ::= new Loner(viewAnalyser).calculatePreferences() * 1.0
-    multiplePreferences ::= new Hunger(viewAnalyser).calculatePreferences() * 1.0
-    multiplePreferences ::= new Fear(viewAnalyser).calculatePreferences() * 1.0
-    multiplePreferences ::= new CabinFever(viewAnalyser).calculatePreferences() * 1.0
-    multiplePreferences ::= new MissMaster(viewAnalyser, reactFunction).calculatePreferences() * 1.0
+    multiplePreferences ::= new Loner(viewAnalyser).calculatePreferences() * Parameters.HUNTER_LONER
+    multiplePreferences ::= new Hunger(viewAnalyser).calculatePreferences() * Parameters.HUNTER_HUNGER
+    multiplePreferences ::= new Fear(viewAnalyser).calculatePreferences() * Parameters.HUNTER_FEAR
+    multiplePreferences ::= new CabinFever(viewAnalyser).calculatePreferences() * Parameters.HUNTER_CABIN_FEVER
+    multiplePreferences ::= new GoHome(viewAnalyser, reactFunction).calculatePreferences() * Parameters.HUNTER_GO_HOME
 
     val preferences = multiplePreferences.foldLeft(new DirectionPreferences)(_ + _)
 

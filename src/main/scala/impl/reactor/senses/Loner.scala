@@ -2,6 +2,7 @@ package impl.reactor.senses
 
 import impl.analyser.{PathFinder, ViewAnalyser}
 import impl.data.{XY, DirectionPreferences}
+import impl.configuration.PrizesFunctions
 
 /**
  * @author Marcin Pieciukiewicz
@@ -16,9 +17,8 @@ class Loner(val viewAnalyser: ViewAnalyser) {
 
     myMiniBotsRelative.foreach(myMiniBotRelative => {
       val (nextStep, pathLength) = PathFinder.findNextStepAndDistance(viewAnalyser, myMiniBotRelative)
-
-      preferences.decreasePreference(nextStep, pathLength)
-
+      val prize = PrizesFunctions.loner(pathLength)
+      preferences.increasePreference(nextStep, prize)
     })
 
     preferences

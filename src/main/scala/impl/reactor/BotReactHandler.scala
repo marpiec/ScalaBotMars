@@ -5,6 +5,7 @@ import impl.servercommunication.command.{Commands, Move}
 import impl.data.{DirectionPreferences, XY}
 import impl.analyser._
 import senses.{MissileDefence, Hunger, Fear, CabinFever}
+import impl.configuration.Parameters
 
 class BotReactHandler(reactFunction: ReactFunction) {
 
@@ -16,9 +17,9 @@ class BotReactHandler(reactFunction: ReactFunction) {
 
     var multiplePreferences = List[DirectionPreferences]()
 
-    multiplePreferences ::= new Hunger(viewAnalyser).calculatePreferences() * 1.0
-    multiplePreferences ::= new Fear(viewAnalyser).calculatePreferences() * 1.0
-    multiplePreferences ::= new CabinFever(viewAnalyser).calculatePreferences() * 1.0
+    multiplePreferences ::= new Hunger(viewAnalyser).calculatePreferences() * Parameters.BOT_HUNGER
+    multiplePreferences ::= new Fear(viewAnalyser).calculatePreferences() * Parameters.BOT_FEAR
+    multiplePreferences ::= new CabinFever(viewAnalyser).calculatePreferences() * Parameters.BOT_CABIN_FEVER
 
     val preferences = multiplePreferences.foldLeft(new DirectionPreferences)(_ + _)
 
