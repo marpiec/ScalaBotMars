@@ -1,7 +1,7 @@
 package notused
 
 /**
- * 
+ *
  */
 class PathFinder {
 

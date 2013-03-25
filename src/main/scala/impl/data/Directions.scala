@@ -5,8 +5,8 @@ object Directions {
 
   val DIRECTIONS_COUNT = DIRECTIONS.size
 
-  def getDirectionFor(xy:XY) = DIRECTIONS.indexOf(xy)
+  def getDirectionFor(xy: XY) = DIRECTIONS.indexOf(xy)
 
-  def getStepForDirection(direction:Int) = DIRECTIONS(direction)
+  def getStepForDirection(direction: Int) = DIRECTIONS(direction)
 
 }

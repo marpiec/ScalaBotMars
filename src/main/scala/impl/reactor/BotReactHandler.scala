@@ -2,9 +2,8 @@ package impl.reactor
 
 import impl.servercommunication.function.ReactFunction
 import impl.servercommunication.command.{Commands, Move}
-import impl.data.{DirectionPreferences, EntitiesTypes, XY}
+import impl.data.{DirectionPreferences, XY}
 import impl.analyser._
-import impl.servercommunication.command.debug.{Say, DrawLine}
 import senses.{MissileDefence, Hunger, Fear, CabinFever}
 
 class BotReactHandler(reactFunction: ReactFunction) {

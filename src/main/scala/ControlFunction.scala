@@ -28,7 +28,7 @@ class ControlFunction {
 
     if (parser.isReactFunction) {
       val reactFunction = parser.result.asInstanceOf[ReactFunction]
-      if(reactFunction.generation == 0) {
+      if (reactFunction.generation == 0) {
         new BotReactHandler(reactFunction).respond()
       } else {
         new MiniBotReactHandler(reactFunction).respond()

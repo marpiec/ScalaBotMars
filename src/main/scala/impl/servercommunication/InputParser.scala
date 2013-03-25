@@ -4,7 +4,7 @@ import impl.servercommunication.function.{GoodbyeFunction, ReactFunction, Welcom
 import impl.data.XY
 
 
-class InputParser(input:String) {
+class InputParser(input: String) {
 
   private val (parsedFunctionName, parsedParams) = parse(input)
 
@@ -41,9 +41,9 @@ class InputParser(input:String) {
     }
   }
 
-  def getXYParamOption(name:String):Option[XY] = {
+  def getXYParamOption(name: String): Option[XY] = {
     val paramOption = parsedParams.get(name)
-    if(paramOption.isDefined) {
+    if (paramOption.isDefined) {
       Option(XY.parse(paramOption.get))
     } else {
       None
@@ -54,17 +54,17 @@ class InputParser(input:String) {
   def parse(command: String) = {
     def splitParam(param: String) = {
       val segments = param.split('=')
-      if( segments.length != 2 )
+      if (segments.length != 2)
         throw new IllegalStateException("invalid key/value pair: " + param)
-      (segments(0),segments(1))
+      (segments(0), segments(1))
     }
 
     val segments = command.split('(')
-    if( segments.length != 2 )
+    if (segments.length != 2)
       throw new IllegalStateException("invalid command: " + command)
 
     val params = segments(1).dropRight(1).split(',')
-    val keyValuePairs = params.map( splitParam ).toMap
+    val keyValuePairs = params.map(splitParam).toMap
     (segments(0), keyValuePairs)
   }
 }

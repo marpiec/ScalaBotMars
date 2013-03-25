@@ -6,9 +6,9 @@ import impl.data.{XY, DirectionPreferences}
 /**
  * @author Marcin Pieciukiewicz
  */
-class Loner(val viewAnalyser:ViewAnalyser) {
+class Loner(val viewAnalyser: ViewAnalyser) {
 
-  def getPreferences():DirectionPreferences = {
+  def getPreferences(): DirectionPreferences = {
 
     val preferences = new DirectionPreferences()
 

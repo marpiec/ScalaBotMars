@@ -15,17 +15,27 @@ object EntitiesTypes {
   val GOOD_BEAST = 'B'
   val BAD_BEAST = 'b'
 
-  def isInvisible(pointValue: Char)    = INVISIBLE == pointValue
-  def isEmpty(pointValue: Char)        = EMPTY == pointValue
-  def isWall(pointValue: Char)         = WALL == pointValue
-  def isMyBot(pointValue: Char)        = MY_BOT == pointValue
-  def isEnemyBot(pointValue: Char)     = ENEMY_BOT == pointValue
-  def isMyMiniBot(pointValue: Char)    = MY_MINI_BOT == pointValue
+  def isInvisible(pointValue: Char) = INVISIBLE == pointValue
+
+  def isEmpty(pointValue: Char) = EMPTY == pointValue
+
+  def isWall(pointValue: Char) = WALL == pointValue
+
+  def isMyBot(pointValue: Char) = MY_BOT == pointValue
+
+  def isEnemyBot(pointValue: Char) = ENEMY_BOT == pointValue
+
+  def isMyMiniBot(pointValue: Char) = MY_MINI_BOT == pointValue
+
   def isEnemyMiniBot(pointValue: Char) = ENEMY_MINI_BOT == pointValue
-  def isGoodPlant(pointValue: Char)    = GOOD_PLANT == pointValue
-  def isBadPlant(pointValue: Char)     = BAD_PLANT == pointValue
-  def isGoodBeast(pointValue: Char)    = GOOD_BEAST == pointValue
-  def isBadBeast(pointValue: Char)     = BAD_BEAST == pointValue
+
+  def isGoodPlant(pointValue: Char) = GOOD_PLANT == pointValue
+
+  def isBadPlant(pointValue: Char) = BAD_PLANT == pointValue
+
+  def isGoodBeast(pointValue: Char) = GOOD_BEAST == pointValue
+
+  def isBadBeast(pointValue: Char) = BAD_BEAST == pointValue
 
   def isSafeEntity(pointValue: Char) = !notSafeEntity(pointValue)
 

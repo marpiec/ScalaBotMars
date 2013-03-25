@@ -4,15 +4,15 @@ import impl.data.{XY, EntitiesTypes}
 import impl.analyser.ViewAnalyser
 
 /**
- * 
+ *
  */
-class DistanceMapCreator(val viewAnalyser:ViewAnalyser) {
+class DistanceMapCreator(val viewAnalyser: ViewAnalyser) {
 
   val MAX_STEPS = viewAnalyser.viewDistance
   val viewSize = viewAnalyser.viewSize
   val viewCenter = viewAnalyser.viewDistance
 
-  def createDistanceMap():Array[Array[Int]] = {
+  def createDistanceMap(): Array[Array[Int]] = {
     val map = Array.fill(viewSize, viewSize)(Int.MaxValue)
     map(viewCenter)(viewCenter) = 0
 
@@ -35,7 +35,7 @@ class DistanceMapCreator(val viewAnalyser:ViewAnalyser) {
       for (x <- 0 until viewSize) {
         if (map(x)(y) == Int.MaxValue) {
           print("  .")
-        } else if(map(x)(y)<10) {
+        } else if (map(x)(y) < 10) {
           print("  ")
           print(map(x)(y))
         } else {
@@ -49,7 +49,7 @@ class DistanceMapCreator(val viewAnalyser:ViewAnalyser) {
     map
   }
 
-  def findNeighbourWithStep(step: Int, distanceMap: Array[Array[Int]], sourceX: Int, sourceY: Int):Option[XY] = {
+  def findNeighbourWithStep(step: Int, distanceMap: Array[Array[Int]], sourceX: Int, sourceY: Int): Option[XY] = {
     val minX = if (sourceX == 0) 0 else -1
     val minY = if (sourceY == 0) 0 else -1
 
@@ -58,8 +58,8 @@ class DistanceMapCreator(val viewAnalyser:ViewAnalyser) {
 
     for (x <- minX to maxX) {
       for (y <- minY to maxY) {
-        if (distanceMap(sourceX+x)(sourceY+y) == step) {
-          return Option(new XY(sourceX+x, sourceY+y))
+        if (distanceMap(sourceX + x)(sourceY + y) == step) {
+          return Option(new XY(sourceX + x, sourceY + y))
         }
       }
     }

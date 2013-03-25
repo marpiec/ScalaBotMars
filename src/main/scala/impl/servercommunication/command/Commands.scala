@@ -8,7 +8,7 @@ class Commands {
 
   var commands = List[Command]()
 
-  def addCommand(command:Command) {
+  def addCommand(command: Command) {
     commands ::= command
   }
 

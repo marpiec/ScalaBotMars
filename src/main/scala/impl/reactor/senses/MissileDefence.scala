@@ -7,10 +7,10 @@ import impl.data.{MiniBotRoles, XY}
 /**
  * @author Marcin Pieciukiewicz
  */
-class MissileDefence(viewAnalyser:ViewAnalyser) {
+class MissileDefence(viewAnalyser: ViewAnalyser) {
 
 
-  def getCommands():List[Spawn] = {
+  def getCommands(): List[Spawn] = {
 
     val targets: List[XY] = viewAnalyser.enemyMiniBots ::: viewAnalyser.enemyBots ::: viewAnalyser.badBeasts
     val myMiniBots: List[XY] = viewAnalyser.myMiniBots
@@ -21,7 +21,7 @@ class MissileDefence(viewAnalyser:ViewAnalyser) {
       val pathSize = PathFinder.calculateRequiredSteps(target)
       val nextStep = pathFinder.findNextStepTo(target)
 
-      if(pathSize < 15) {
+      if (pathSize < 15) {
 
         val notEnoughtMissilesNear = myMiniBots.count(myBotRelativePosition => {
           PathFinder.calculateRequiredSteps(myBotRelativePosition, target) < 10

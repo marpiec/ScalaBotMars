@@ -3,7 +3,7 @@ package impl.analyser
 import impl.data.{Directions, EntitiesTypes, XY, DirectionPreferences}
 
 /**
- * 
+ *
  */
 object DirectionAdvisor {
 

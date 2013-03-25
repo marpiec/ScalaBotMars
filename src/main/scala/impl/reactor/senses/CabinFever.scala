@@ -4,9 +4,9 @@ import impl.analyser.{PathFinder, ViewAnalyser}
 import impl.data.{EntitiesTypes, XY, DirectionPreferences}
 
 /**
- * 
+ *
  */
-class CabinFever(viewAnalyser:ViewAnalyser) {
+class CabinFever(viewAnalyser: ViewAnalyser) {
 
   val viewSize = viewAnalyser.viewSize
 
@@ -14,7 +14,7 @@ class CabinFever(viewAnalyser:ViewAnalyser) {
 
   val pathFinder = new PathFinder(viewAnalyser)
 
-  def getPreferences():DirectionPreferences = {
+  def getPreferences(): DirectionPreferences = {
 
     val directionPreferences = new DirectionPreferences()
 
@@ -26,11 +26,11 @@ class CabinFever(viewAnalyser:ViewAnalyser) {
       increasePreferencesForTarget(new XY(-HORIZON, y), directionPreferences)
     }
 
-    for (x <- -HORIZON+1 until HORIZON-1) {
+    for (x <- -HORIZON + 1 until HORIZON - 1) {
       increasePreferencesForTarget(new XY(x, HORIZON), directionPreferences)
     }
 
-    for (x <- -HORIZON+1 until HORIZON-1) {
+    for (x <- -HORIZON + 1 until HORIZON - 1) {
       increasePreferencesForTarget(new XY(x, -HORIZON), directionPreferences)
     }
 

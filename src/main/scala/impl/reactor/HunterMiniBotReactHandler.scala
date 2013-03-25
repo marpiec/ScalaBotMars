@@ -9,9 +9,9 @@ import senses._
 /**
  * @author Marcin Pieciukiewicz
  */
-class HunterMiniBotReactHandler(reactFunction: ReactFunction, viewAnalyser:ViewAnalyser) {
+class HunterMiniBotReactHandler(reactFunction: ReactFunction, viewAnalyser: ViewAnalyser) {
 
-  def respond():List[Command] = {
+  def respond(): List[Command] = {
 
     var multiplePreferences = List[DirectionPreferences]()
 
