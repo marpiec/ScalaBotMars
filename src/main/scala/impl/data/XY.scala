@@ -2,12 +2,12 @@ package impl.data
 
 case class XY(x: Int, y: Int) {
 
-  def +(other:XY) = {
-    XY(x+other.x, y+other.y)
+  def +(other: XY) = {
+    XY(x + other.x, y + other.y)
   }
 
-  def *(scale:Int) = {
-    XY(x*scale, y*scale)
+  def *(scale: Int) = {
+    XY(x * scale, y * scale)
   }
 
   override def toString = x + ":" + y
@@ -16,7 +16,7 @@ case class XY(x: Int, y: Int) {
 
 object XY {
 
-  val ZERO = XY(0,0)
+  val ZERO = XY(0, 0)
 
   def parse(input: String) = {
     val coords = input.split(":")

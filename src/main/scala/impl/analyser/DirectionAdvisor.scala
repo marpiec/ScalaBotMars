@@ -10,7 +10,7 @@ object DirectionAdvisor {
   val DIRECTIONS_COUNT = Directions.DIRECTIONS_COUNT
   val VERY_LARGE_PREFERENCE_CHANGE = 1000000
 
-  def findBestMoveFromPreferences(preferences: DirectionPreferences, viewAnalyser: ViewAnalyser, myMiniBotNotSafe:Boolean) = {
+  def findBestMoveFromPreferences(preferences: DirectionPreferences, viewAnalyser: ViewAnalyser, myMiniBotNotSafe: Boolean) = {
     var targetPoint: Char = '_'
     var step: XY = null
     var triesCount = 0

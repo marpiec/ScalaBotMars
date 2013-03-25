@@ -47,38 +47,49 @@ class BotReactHandler(reactFunction: ReactFunction) {
 
     val newDestination = new LifeGuide(viewAnalyser, reactFunction, cabinFeverPreferences).chooseDestination()
 
-    val destinationChangeTime = if(reactFunction.destination == newDestination) reactFunction.destinationChangeTime
-                                else reactFunction.time
+    val destinationChangeTime = if (reactFunction.destination == newDestination) reactFunction.destinationChangeTime
+    else reactFunction.time
 
 
 
     var commands = new Commands(new Move(step))
 
     commands = applyBotMoveToSpawn(spawnCommand, step, commands)
+
     commands ::= new SetCommand(Map(CustomStatus.DESTINATION -> newDestination.toString, CustomStatus.LAST_STEPS -> newLastSteps.toString,
-                                    CustomStatus.DESTINATION_CHANGE_TIME -> destinationChangeTime.toString))
+      CustomStatus.DESTINATION_CHANGE_TIME -> destinationChangeTime.toString))
 
     commands
 
   }
 
 
-  def applyBotMoveToSpawn(spawnCommand: Option[Spawn], step: XY, commands: Commands):Commands = {
+  def applyBotMoveToSpawn(spawnCommand: Option[Spawn], masterBotStep: XY, commands: Commands): Commands = {
     if (spawnCommand.isDefined) {
       val spawn = spawnCommand.get
       val spawnStep = spawn.direction
-      if (spawnStep == step) {
-        val newSpawnStep = Directions.getStepForDirectionModulo(Directions.getDirectionFor(spawnStep) + 1)
+      if (spawnStep == masterBotStep) {
 
-        val spawnPoint = viewAnalyser.getViewPointRelative(newSpawnStep.x, newSpawnStep.y)
-        if (DirectionAdvisor.pointNotSafe(spawnPoint, true)) {
-          spawn.direction = newSpawnStep
+        if (trySimilarSpawnPoint(spawnStep, spawn, 1)) {
+          return spawn :: commands
+        } else if (trySimilarSpawnPoint(spawnStep, spawn, -1)) {
+          return spawn :: commands
         }
-
+      } else {
+        return spawn :: commands
       }
-      spawn :: commands
+    }
+    return commands
+  }
+
+  def trySimilarSpawnPoint(spawnStep: XY, spawn: Spawn, delta: Int): Boolean = {
+    val newSpawnStep = Directions.getStepForDirectionModulo(Directions.getDirectionFor(spawnStep) + delta)
+    val spawnPoint = viewAnalyser.getViewPointRelative(newSpawnStep.x, newSpawnStep.y)
+    if (DirectionAdvisor.pointNotSafe(spawnPoint, true)) {
+      spawn.direction = newSpawnStep
+      true
     } else {
-      commands
+      false
     }
   }
 }

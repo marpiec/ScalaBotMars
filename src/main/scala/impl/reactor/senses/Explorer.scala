@@ -6,7 +6,7 @@ import impl.data.DirectionPreferences
 import impl.configuration.PrizesFunctions
 
 /**
- * 
+ *
  */
 class Explorer(val viewAnalyser: ViewAnalyser, reactFunction: ReactFunction) {
   val currentDestination = reactFunction.destination

@@ -1,14 +1,13 @@
 package impl.reactor.senses
 
-import impl.servercommunication.command.{Commands, Spawn}
+import impl.servercommunication.command.Spawn
 import impl.analyser.{PathFinder, ViewAnalyser}
-import impl.data.{DirectionPreferences, MiniBotRoles, XY}
-import impl.configuration.PrizesFunctions
+import impl.data.{MiniBotRoles, XY}
 
 /**
  * @author Marcin Pieciukiewicz
  */
-class MissileDefence(viewAnalyser: ViewAnalyser, slavesCount:Int, maxSlaves: Int) {
+class MissileDefence(viewAnalyser: ViewAnalyser, slavesCount: Int, maxSlaves: Int) {
 
 
   def calculateCommands(): Option[Spawn] = {

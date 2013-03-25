@@ -3,7 +3,7 @@ package impl.servercommunication.command
 /**
  *
  */
-class SetCommand(params:Map[String, String]) extends Command {
+class SetCommand(params: Map[String, String]) extends Command {
   override def toString: String = {
 
     val sb = new StringBuilder("Set(")

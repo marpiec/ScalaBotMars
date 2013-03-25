@@ -1,31 +1,31 @@
 package impl.reactor.senses
 
-import impl.analyser.{DirectionAdvisor, ViewAnalyser}
+import impl.analyser.ViewAnalyser
 import impl.servercommunication.function.ReactFunction
-import impl.data.{DirectionPreferences, Directions, XY}
+import impl.data.{DirectionPreferences, XY}
 import scala.None
 
 /**
- * 
+ *
  */
-class LifeGuide(viewAnalyser: ViewAnalyser, reactFunction: ReactFunction, cabinFeverPreferences:DirectionPreferences) {
+class LifeGuide(viewAnalyser: ViewAnalyser, reactFunction: ReactFunction, cabinFeverPreferences: DirectionPreferences) {
 
   val currentDestination = reactFunction.destination
   val destinationChangeTime = reactFunction.destinationChangeTime
   val time = reactFunction.time
 
-  def chooseDestination():XY = {
+  def chooseDestination(): XY = {
 
-    var newDestinationOption:Option[XY] = None
+    var newDestinationOption: Option[XY] = None
 
     if (doesDestinationHaveToChange()) {
       if (currentDestination == XY.ZERO) {
-        newDestinationOption = Option(XY(-1,-1))
+        newDestinationOption = Option(XY(-1, -1))
       } else {
         //val currentDirection = Directions.getDirectionFor(currentDestination)
         val newDestination: XY = cabinFeverPreferences.findBestStep()
         //println("New destination: "+newDestination+" "+cabinFeverPreferences)
-        newDestinationOption = Option(newDestination)//
+        newDestinationOption = Option(newDestination) //
       }
 
     }
@@ -34,8 +34,8 @@ class LifeGuide(viewAnalyser: ViewAnalyser, reactFunction: ReactFunction, cabinF
 
   }
 
-  private def doesDestinationHaveToChange():Boolean = {
-    if(currentDestination == XY.ZERO) {
+  private def doesDestinationHaveToChange(): Boolean = {
+    if (currentDestination == XY.ZERO) {
       return true
     } else if (reactFunction.lastSteps.isFilled && time > destinationChangeTime + 20) {
       val change = reactFunction.lastSteps.calculateChange

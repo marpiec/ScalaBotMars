@@ -11,7 +11,7 @@ import impl.servercommunication.command.Commands
  */
 class MiniBotReactHandler(reactFunction: ReactFunction) {
 
-  def respond():Commands = {
+  def respond(): Commands = {
     val viewAnalyser = new ViewAnalyser(reactFunction.view)
 
     val commands = if (reactFunction.role == MiniBotRoles.MISSILE) {

@@ -1,7 +1,7 @@
 package impl.configuration
 
 /**
- * 
+ *
  */
 object Parameters {
 

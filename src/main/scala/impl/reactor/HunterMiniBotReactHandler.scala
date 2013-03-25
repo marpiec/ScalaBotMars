@@ -2,7 +2,6 @@ package impl.reactor
 
 import impl.analyser.{DirectionAdvisor, ViewAnalyser}
 import impl.servercommunication.command._
-import debug.Say
 import impl.data.{MiniBotRoles, DirectionPreferences, XY}
 import impl.servercommunication.function.ReactFunction
 import senses._

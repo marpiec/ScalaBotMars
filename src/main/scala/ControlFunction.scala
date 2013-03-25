@@ -16,7 +16,7 @@ class ControlFunction {
 
       response.toString
     } catch {
-      case e:Throwable => {
+      case e: Throwable => {
         e.printStackTrace()
         ""
       }

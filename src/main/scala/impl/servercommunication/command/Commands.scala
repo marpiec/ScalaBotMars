@@ -5,13 +5,13 @@ package impl.servercommunication.command
  */
 class Commands(val commands: List[Command]) {
 
-  def this(command:Command) = this(List(command))
+  def this(command: Command) = this(List(command))
 
-  def ::(command: Command):Commands = {
+  def ::(command: Command): Commands = {
     new Commands(command :: commands)
   }
 
-  def :::(otherCommands: Commands):Commands = {
+  def :::(otherCommands: Commands): Commands = {
     new Commands(otherCommands.commands ::: commands)
   }
 

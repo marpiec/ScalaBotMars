@@ -34,10 +34,10 @@ class InputParser(input: String) {
         parsedParams.getOrElse("slaves", "0").toInt,
         parsedParams.getOrElse(CustomStatus.ROLE, "master"),
         parsedParams.getOrElse(CustomStatus.MAX_SLAVES, "1000000").toInt,
-        parsedParams.getOrElse(CustomStatus.TIME_FROM_CREATION,"0").toInt,
-        XY.parse(parsedParams.getOrElse(CustomStatus.DESTINATION,"0:0")),
+        parsedParams.getOrElse(CustomStatus.TIME_FROM_CREATION, "0").toInt,
+        XY.parse(parsedParams.getOrElse(CustomStatus.DESTINATION, "0:0")),
         parsedParams.getOrElse(CustomStatus.DESTINATION_CHANGE_TIME, "0").toInt,
-        LastSteps.parse(parsedParams.getOrElse(CustomStatus.LAST_STEPS,"0:0"))
+        LastSteps.parse(parsedParams.getOrElse(CustomStatus.LAST_STEPS, "0:0"))
       )
     } else if (isGoodbyeFunction) {
       new GoodbyeFunction(parsedParams.getOrElse("energy", "0").toInt)

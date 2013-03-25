@@ -1,7 +1,7 @@
 package impl.servercommunication
 
 /**
- * 
+ *
  */
 object CustomStatus {
   val ROLE = "role"

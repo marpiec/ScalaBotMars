@@ -4,13 +4,12 @@ import impl.data.EntitiesTypes
 import impl.servercommunication.data.LastSteps
 
 /**
- * 
+ *
  */
 object PrizesFunctions {
 
 
-
-  def fear(entityType: Char, pathLength: Int):Double = {
+  def fear(entityType: Char, pathLength: Int): Double = {
 
     var pathCost = 1.0
     var nutritions = 1.0
@@ -30,11 +29,11 @@ object PrizesFunctions {
       }
     }
 
-    - nutritions / pathCost
+    -nutritions / pathCost
   }
 
 
-  def hunger(entityType: Char, pathLength: Int):Double = {
+  def hunger(entityType: Char, pathLength: Int): Double = {
     var pathCost = 1.0
     var nutritions = 1.0
 
@@ -52,16 +51,16 @@ object PrizesFunctions {
     nutritions / pathCost
   }
 
-  def goHome(pathLength: Int, energy:Double, foodCount: Int, masterVisible: Boolean):Double = {
+  def goHome(pathLength: Int, energy: Double, foodCount: Int, masterVisible: Boolean): Double = {
     val scale = if (masterVisible) 1.0 else 0.2
     scale * energy * energy / 100 / pathLength
   }
 
   def loner(pathLength: Int): Double = {
-    - pathLength * pathLength / 10.0
+    -pathLength * pathLength / 10.0
   }
 
-  def explorer(steps: LastSteps):Double = {
+  def explorer(steps: LastSteps): Double = {
     val change = steps.calculateChange
     val distance = math.max(change.x, change.y)
     if (distance == 0) {
