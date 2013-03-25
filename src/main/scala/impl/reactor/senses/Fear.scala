@@ -5,9 +5,9 @@ import impl.data.{EntitiesTypes, XY, DirectionPreferences}
 
 class Fear(val viewAnalyser: ViewAnalyser) {
 
-  def getPreferences(): DirectionPreferences = {
+  def calculatePreferences(): DirectionPreferences = {
 
-    val directionPreferences = new DirectionPreferences()
+    val preferences = new DirectionPreferences()
 
     val badEntities: List[XY] = viewAnalyser.badPlants ::: viewAnalyser.badBeasts ::: viewAnalyser.enemyMiniBots ::: viewAnalyser.enemyBots
 
@@ -37,16 +37,16 @@ class Fear(val viewAnalyser: ViewAnalyser) {
         1
 
       if (EntitiesTypes.isBadPlant(viewAnalyser.getViewPointFromRelative(entityPositionRelative))) {
-        directionPreferences.decreasePreferenceSharp(nextStep, nutritionPrize / pathCost) // w zaleznosci od odleglosci
+        preferences.decreasePreferenceSharp(nextStep, nutritionPrize / pathCost)
       } else {
-        directionPreferences.decreasePreference(nextStep, nutritionPrize / pathCost) // w zaleznosci od odleglosci
+        preferences.decreasePreference(nextStep, nutritionPrize / pathCost)
       }
 
     })
 
     //println("Direction fear: "+directionPreferences)
 
-    directionPreferences
+    preferences
   }
 
 }

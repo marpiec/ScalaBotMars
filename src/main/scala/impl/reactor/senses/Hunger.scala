@@ -5,9 +5,9 @@ import impl.data.{EntitiesTypes, XY, DirectionPreferences}
 
 class Hunger(viewAnalyser: ViewAnalyser) {
 
-  def getPreferences(): DirectionPreferences = {
+  def calculatePreferences(): DirectionPreferences = {
 
-    val directionPreferences = new DirectionPreferences()
+    val preferences = new DirectionPreferences()
 
     val goodEntitiesRelative: List[XY] = viewAnalyser.goodPlants ::: viewAnalyser.goodBeasts
 
@@ -25,12 +25,12 @@ class Hunger(viewAnalyser: ViewAnalyser) {
       else
         100
 
-      directionPreferences.increasePreference(nextStep, nutritionPrize / pathCost) // w zaleznosci od odleglosci
+      preferences.increasePreference(nextStep, nutritionPrize / pathCost)
     })
 
     // println("Direction preferences: "+directionPreferences)
 
-    directionPreferences
+    preferences
   }
 
 }

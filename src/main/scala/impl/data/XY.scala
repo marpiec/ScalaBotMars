@@ -1,8 +1,8 @@
 package impl.data
 
-case class XY(val x: Int, val y: Int) {
+case class XY(x: Int, y: Int) {
 
-  override def toString = x + ":" + y;
+  override def toString = x + ":" + y
 
 }
 

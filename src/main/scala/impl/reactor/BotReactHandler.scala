@@ -16,14 +16,14 @@ class BotReactHandler(reactFunction: ReactFunction) {
 
     var multiplePreferences = List[DirectionPreferences]()
 
-    multiplePreferences ::= new Hunger(viewAnalyser).getPreferences() * 1.0
-    multiplePreferences ::= new Fear(viewAnalyser).getPreferences() * 1.0
-    multiplePreferences ::= new CabinFever(viewAnalyser).getPreferences() * 1.0
+    multiplePreferences ::= new Hunger(viewAnalyser).calculatePreferences() * 1.0
+    multiplePreferences ::= new Fear(viewAnalyser).calculatePreferences() * 1.0
+    multiplePreferences ::= new CabinFever(viewAnalyser).calculatePreferences() * 1.0
 
     val preferences = multiplePreferences.foldLeft(new DirectionPreferences)(_ + _)
 
     val missileDefence: MissileDefence = new MissileDefence(viewAnalyser)
-    val antiMissileCommands = missileDefence.getCommands()
+    val antiMissileCommands = missileDefence.calculateCommands()
 
     val step: XY = DirectionAdvisor.findBestMoveFormPreferences(preferences, viewAnalyser)
 

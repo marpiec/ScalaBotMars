@@ -10,7 +10,7 @@ import impl.data.DirectionPreferences
 class MissMaster(viewAnalyser: ViewAnalyser, reactFunction: ReactFunction) {
 
 
-  def getPreferences(): DirectionPreferences = {
+  def calculatePreferences(): DirectionPreferences = {
 
     val preferences = new DirectionPreferences()
     val masterPosition = reactFunction.masterOption.get

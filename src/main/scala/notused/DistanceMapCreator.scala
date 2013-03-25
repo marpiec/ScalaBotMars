@@ -63,6 +63,6 @@ class DistanceMapCreator(val viewAnalyser: ViewAnalyser) {
         }
       }
     }
-    return None
+    None
   }
 }

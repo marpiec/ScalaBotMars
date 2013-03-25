@@ -10,7 +10,7 @@ import impl.data.{MiniBotRoles, XY}
 class MissileDefence(viewAnalyser: ViewAnalyser) {
 
 
-  def getCommands(): Commands = {
+  def calculateCommands(): Commands = {
 
     val targets: List[XY] = viewAnalyser.enemyMiniBots ::: viewAnalyser.enemyBots ::: viewAnalyser.badBeasts
     val myMiniBots: List[XY] = viewAnalyser.myMiniBots

@@ -13,6 +13,6 @@ class Spawn(val direction: XY, val name: String, val energy: Int, val role: Stri
       append(",role=").append(role)
 
     sb.append(")")
-    sb.toString
+    sb.toString()
   }
 }

@@ -28,6 +28,6 @@ class ReactFunction(val generation: Int, val name: String, val time: Int, val vi
       }
       sb.append("\n")
     }
-    sb.toString
+    sb.toString()
   }
 }

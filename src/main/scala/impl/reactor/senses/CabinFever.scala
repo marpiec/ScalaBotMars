@@ -13,27 +13,27 @@ class CabinFever(viewAnalyser: ViewAnalyser) {
   val HORIZON = 10
 
 
-  def getPreferences(): DirectionPreferences = {
+  def calculatePreferences(): DirectionPreferences = {
 
-    val directionPreferences = new DirectionPreferences()
+    val preferences = new DirectionPreferences()
 
     for (y <- -HORIZON until HORIZON) {
-      increasePreferencesForTarget(new XY(HORIZON, y), directionPreferences)
+      increasePreferencesForTarget(new XY(HORIZON, y), preferences)
     }
 
     for (y <- -HORIZON until HORIZON) {
-      increasePreferencesForTarget(new XY(-HORIZON, y), directionPreferences)
+      increasePreferencesForTarget(new XY(-HORIZON, y), preferences)
     }
 
     for (x <- -HORIZON + 1 until HORIZON - 1) {
-      increasePreferencesForTarget(new XY(x, HORIZON), directionPreferences)
+      increasePreferencesForTarget(new XY(x, HORIZON), preferences)
     }
 
     for (x <- -HORIZON + 1 until HORIZON - 1) {
-      increasePreferencesForTarget(new XY(x, -HORIZON), directionPreferences)
+      increasePreferencesForTarget(new XY(x, -HORIZON), preferences)
     }
 
-    directionPreferences
+    preferences
   }
 
 
