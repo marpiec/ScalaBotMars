@@ -31,7 +31,7 @@ class ControlFunction {
     if (parser.isWelcomeFunction) {
       val welcomeFunction = parser.result.asInstanceOf[WelcomeFunction]
       welcomeFunction.maxSlaves
-      new SetCommand(Map({CustomStatus.MAX_SLAVES -> welcomeFunction.maxSlaves.toString}))
+      new SetCommand(Map(CustomStatus.MAX_SLAVES -> welcomeFunction.maxSlaves.toString))
     }
     if (parser.isReactFunction) {
       val reactFunction = parser.result.asInstanceOf[ReactFunction]

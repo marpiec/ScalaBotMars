@@ -34,7 +34,7 @@ class HunterMiniBotReactHandler(reactFunction: ReactFunction, viewAnalyser: View
     val step: XY = DirectionAdvisor.findBestMoveFormPreferences(preferences, viewAnalyser, true)
 
     var commands = new Commands(new Move(step))
-    commands ::= new SetCommand(Map({CustomStatus.TIME_FROM_CREATION -> (timeFromCreation + 1).toString}))
+    commands ::= new SetCommand(Map(CustomStatus.TIME_FROM_CREATION -> (timeFromCreation + 1).toString))
     commands
   }
 

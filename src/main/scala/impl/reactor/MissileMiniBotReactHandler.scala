@@ -34,10 +34,10 @@ class MissileMiniBotReactHandler(reactFunction: ReactFunction, viewAnalyser: Vie
     }
 
     if (commandOption.isEmpty) {
-      new SetCommand(Map({CustomStatus.ROLE -> MiniBotRoles.HUNTER})) :: new HunterMiniBotReactHandler(reactFunction, viewAnalyser).respond()
+      new SetCommand(Map(CustomStatus.ROLE -> MiniBotRoles.HUNTER)) :: new HunterMiniBotReactHandler(reactFunction, viewAnalyser).respond()
     } else {
       var commands = new Commands(commandOption.get)
-      commands ::= new SetCommand(Map({CustomStatus.TIME_FROM_CREATION -> (reactFunction.timeFromCreation + 1).toString}))
+      commands ::= new SetCommand(Map(CustomStatus.TIME_FROM_CREATION -> (reactFunction.timeFromCreation + 1).toString))
       commands
     }
   }
