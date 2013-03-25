@@ -15,7 +15,7 @@ class SetCommand(params:Map[String, String]) extends Command {
       } else {
         notFirst = true
       }
-      sb.append(key).append("=").append(value);
+      sb.append(key).append("=").append(value)
     }
 
     sb.append(")").toString()

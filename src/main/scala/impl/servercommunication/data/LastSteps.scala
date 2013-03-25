@@ -32,7 +32,7 @@ class LastSteps(val steps: List[XY]) {
       }
       sb.append(xy)
     })
-    sb.toString
+    sb.toString()
   }
 }
 
