@@ -7,7 +7,7 @@ object Directions {
 
   def getDirectionFor(xy: XY) = DIRECTIONS.indexOf(xy)
 
-  def getStepForDirection(direction: Int) = DIRECTIONS(direction)
+  def getStepForDirection(direction: Int) = getStepForDirectionModulo(direction)
 
   def getStepForDirectionModulo(direction: Int) = {
     val directionModulo = if (direction < 0) {

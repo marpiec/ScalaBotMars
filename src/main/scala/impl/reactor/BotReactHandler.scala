@@ -21,7 +21,7 @@ class BotReactHandler(reactFunction: ReactFunction) {
     // --- Direction preferences
     var multiplePreferences = List[DirectionPreferences]()
 
-    Logger.enable()
+    //Logger.enable()
 
     val cabinFeverPreferences = new CabinFever(viewAnalyser).calculatePreferences()
     multiplePreferences ::= cabinFeverPreferences * Parameters.BOT_CABIN_FEVER
