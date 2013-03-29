@@ -27,12 +27,12 @@ class LifeGuide(viewAnalyser: ViewAnalyser, reactFunction: ReactFunction, cabinF
 
 
         val goSomewhereElsePreferences = new DirectionPreferences
-        goSomewhereElsePreferences.increasePreference(Directions.getStepForDirection((math.random * 8).toInt), 5.0)
+        goSomewhereElsePreferences.increasePreference(Directions.getStepForDirectionModulo((math.random * 8).toInt), 5.0)
 
-        val rand:Int = ((math.random - 0.5) * 4.0).toInt
+        val rand: Int = ((math.random - 0.5) * 4.0).toInt
         val preferences = goSomewhereElsePreferences + cabinFeverPreferences
 
-        val newDestination = Directions.getStepForDirection(preferences.findBestDirection()+ rand)
+        val newDestination = Directions.getStepForDirectionModulo(preferences.findBestDirection() + rand)
         //println("New destination: "+newDestination+" "+cabinFeverPreferences)
         newDestinationOption = Option(newDestination) //
       }

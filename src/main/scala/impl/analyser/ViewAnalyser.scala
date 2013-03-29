@@ -24,8 +24,11 @@ class ViewAnalyser(view: String) {
 
 
   def getViewPointFromRelative(xy: XY): Char = view.charAt((xy.y + viewDistance) * viewSize + (xy.x + viewDistance))
+
   def getViewPoint(x: Int, y: Int): Char = view.charAt(y * viewSize + x)
+
   def getViewPointRelative(x: Int, y: Int): Char = view.charAt((y + viewDistance) * viewSize + (x + viewDistance))
+
   def enemiesCount = badPlants.size + enemyBots.size + enemyMiniBots.size
 
   private def findEntities() {
@@ -36,7 +39,7 @@ class ViewAnalyser(view: String) {
     }
   }
 
-  private def addEntityToProperList(viewPoint: Char, xyLocation:XY) {
+  private def addEntityToProperList(viewPoint: Char, xyLocation: XY) {
     viewPoint match {
       case EntitiesTypes.GOOD_PLANT => goodPlants ::= xyLocation
       case EntitiesTypes.GOOD_BEAST => goodBeasts ::= xyLocation

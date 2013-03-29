@@ -7,7 +7,6 @@ import impl.servercommunication.function.ReactFunction
 import senses._
 import impl.configuration.Parameters
 import impl.servercommunication.CustomStatus
-import impl.languageutil.Logger
 
 /**
  * @author Marcin Pieciukiewicz

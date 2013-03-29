@@ -1,7 +1,7 @@
 package impl.languageutil
 
 /**
- * 
+ *
  */
 object Logger {
 

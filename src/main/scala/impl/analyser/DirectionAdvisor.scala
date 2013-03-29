@@ -21,7 +21,7 @@ object DirectionAdvisor {
 
       targetPoint = viewAnalyser.getViewPointRelative(step.x, step.y)
 
-      Logger.logNoLn(step+" ["+targetPoint+"], ")
+      Logger.logNoLn(step + " [" + targetPoint + "], ")
 
       triesCount += 1
       preferences.decreasePreferenceSharp(step, VERY_LARGE_PREFERENCE_CHANGE)
