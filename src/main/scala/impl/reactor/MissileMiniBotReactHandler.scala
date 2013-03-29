@@ -17,32 +17,28 @@ class MissileMiniBotReactHandler(reactFunction: ReactFunction, viewAnalyser: Vie
     val enemyBots: List[XY] = viewAnalyser.enemyBots
     val badBeasts: List[XY] = viewAnalyser.badBeasts
 
-    var commandOption: Option[Command] = None
-
-    commandOption = prepareExplodeCommandFor(enemyMiniBots).
-      orElse(prepareExplodeCommandFor(enemyBots)).
-      orElse(prepareExplodeCommandFor(badBeasts))
-
+    // Think about explode
+    var commandOption = prepareExplodeCommandOption(enemyMiniBots ::: enemyBots ::: badBeasts)
 
     if (commandOption.isEmpty) {
-
+      // Think about moving towards target
       val allTargets = enemyMiniBots ::: enemyBots ::: badBeasts
       if (allTargets.nonEmpty) {
         commandOption = Option(prepareMoveCommand(allTargets))
       }
-
     }
 
-    if (commandOption.isEmpty) {
-      new SetCommand(Map(CustomStatus.ROLE -> MiniBotRoles.HUNTER)) :: new HunterMiniBotReactHandler(reactFunction, viewAnalyser).respond()
-    } else {
+    if (commandOption.isDefined) {
       var commands = new Commands(commandOption.get)
       commands ::= new SetCommand(Map(CustomStatus.TIME_FROM_CREATION -> (reactFunction.timeFromCreation + 1).toString))
       commands
+    } else {
+      //change into hunter
+      new SetCommand(Map(CustomStatus.ROLE -> MiniBotRoles.HUNTER)) :: new HunterMiniBotReactHandler(reactFunction, viewAnalyser).respond()
     }
   }
 
-  def prepareExplodeCommandFor(possibleTargets: List[XY]): Option[Command] = {
+  def prepareExplodeCommandOption(possibleTargets: List[XY]): Option[Command] = {
     var closestPath = Int.MaxValue
     var closestPathDirection: XY = null
     possibleTargets.foreach(targetRelativePosition => {

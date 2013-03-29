@@ -39,6 +39,7 @@ class ViewAnalyser(view: String) {
   private def addEntityToProperList(viewPoint: Char, xyLocation:XY) {
     viewPoint match {
       case EntitiesTypes.GOOD_PLANT => goodPlants ::= xyLocation
+      case EntitiesTypes.GOOD_BEAST => goodBeasts ::= xyLocation
       case EntitiesTypes.BAD_PLANT => badPlants ::= xyLocation
       case EntitiesTypes.BAD_BEAST => badBeasts ::= xyLocation
       case EntitiesTypes.ENEMY_BOT => enemyBots ::= xyLocation

@@ -4,6 +4,7 @@ import impl.analyser.{PathFinder, ViewAnalyser}
 import impl.servercommunication.function.ReactFunction
 import impl.data.DirectionPreferences
 import impl.configuration.PrizesFunctions
+import impl.languageutil.Logger
 
 /**
  * @author Marcin Pieciukiewicz
@@ -21,6 +22,7 @@ class GoHome(viewAnalyser: ViewAnalyser, reactFunction: ReactFunction) {
 
     preferences.increasePreference(nextStep, prize)
 
+    Logger.log("Go home:    \t" + preferences)
     preferences
   }
 }

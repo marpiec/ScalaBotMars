@@ -38,7 +38,7 @@ class LastSteps(val steps: List[XY]) {
 
 object LastSteps {
 
-  val MAX_SIZE = 20
+  val MAX_SIZE = 10
 
   def parse(stepsString: String) = {
     val steps = stepsString.split(';').map(XY.parse(_)).toList

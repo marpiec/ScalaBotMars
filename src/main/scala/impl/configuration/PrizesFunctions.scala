@@ -16,16 +16,16 @@ object PrizesFunctions {
 
     entityType match {
       case EntitiesTypes.BAD_BEAST => {
-        pathCost = math.pow(pathLength * 1.5, 1.5)
-        nutritions = if (pathLength > 4) 0 else 200
+        pathCost = pathLength * 0.7
+        nutritions = if (pathLength > 2) 0 else 200
       }
       case EntitiesTypes.ENEMY_MINI_BOT => {
-        pathCost = math.pow(pathLength * 2, 0.5)
-        nutritions = 1000
+        pathCost = pathLength * 0.5
+        nutritions = 500
       }
       case EntitiesTypes.ENEMY_BOT => {
-        pathCost = math.pow(pathLength, 0.5)
-        nutritions = 1000
+        pathCost = pathLength
+        nutritions = 500 * 0.7
       }
     }
 
@@ -39,7 +39,7 @@ object PrizesFunctions {
 
     entityType match {
       case EntitiesTypes.GOOD_BEAST => {
-        pathCost = math.pow(pathLength * 1.5, 1.5)
+        pathCost = pathLength * 1.5
         nutritions = 200
       }
       case EntitiesTypes.GOOD_PLANT => {
@@ -62,11 +62,11 @@ object PrizesFunctions {
 
   def explorer(steps: LastSteps): Double = {
     val change = steps.calculateChange
-    val distance = math.max(change.x, change.y)
+    val distance = math.max(math.abs(change.x), math.abs(change.y))
     if (distance == 0) {
       100
     } else {
-      40 / distance
+      100 / distance
     }
   }
 

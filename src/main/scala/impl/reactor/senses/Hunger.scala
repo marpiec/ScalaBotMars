@@ -3,6 +3,7 @@ package impl.reactor.senses
 import impl.analyser.{PathFinder, ViewAnalyser}
 import impl.data.{XY, DirectionPreferences}
 import impl.configuration.PrizesFunctions
+import impl.languageutil.Logger
 
 class Hunger(viewAnalyser: ViewAnalyser) {
 
@@ -18,7 +19,8 @@ class Hunger(viewAnalyser: ViewAnalyser) {
       preferences.increasePreference(nextStep, stepPrize)
     })
 
-    // println("Direction preferences: "+directionPreferences)
+
+    Logger.log("Hunger:     \t" + preferences)
 
     preferences
   }

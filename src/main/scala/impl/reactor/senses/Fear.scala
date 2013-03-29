@@ -3,6 +3,7 @@ package impl.reactor.senses
 import impl.analyser.{PathFinder, ViewAnalyser}
 import impl.data.{XY, DirectionPreferences}
 import impl.configuration.PrizesFunctions
+import impl.languageutil.Logger
 
 class Fear(val viewAnalyser: ViewAnalyser) {
 
@@ -17,6 +18,8 @@ class Fear(val viewAnalyser: ViewAnalyser) {
       val stepPrize = PrizesFunctions.fear(viewAnalyser.getViewPointFromRelative(entityPositionRelative), pathLength)
       preferences.increasePreference(nextStep, stepPrize)
     })
+
+    Logger.log("Fear:       \t" + preferences)
 
     preferences
   }

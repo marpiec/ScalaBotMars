@@ -7,6 +7,7 @@ import impl.analyser._
 import senses._
 import impl.configuration.Parameters
 import impl.servercommunication.CustomStatus
+import impl.languageutil.Logger
 
 class BotReactHandler(reactFunction: ReactFunction) {
 
@@ -20,6 +21,8 @@ class BotReactHandler(reactFunction: ReactFunction) {
     // --- Direction preferences
     var multiplePreferences = List[DirectionPreferences]()
 
+    Logger.enable()
+
     val cabinFeverPreferences = new CabinFever(viewAnalyser).calculatePreferences()
     multiplePreferences ::= cabinFeverPreferences * Parameters.BOT_CABIN_FEVER
     multiplePreferences ::= new Hunger(viewAnalyser).calculatePreferences() * Parameters.BOT_HUNGER
@@ -28,9 +31,17 @@ class BotReactHandler(reactFunction: ReactFunction) {
 
     val preferences = multiplePreferences.foldLeft(new DirectionPreferences)(_ + _)
 
+    Logger.log("All:        \t" + preferences)
+
+
+
     // --- next step
 
     val step: XY = DirectionAdvisor.findBestMoveFromPreferences(preferences, viewAnalyser, false)
+
+
+    Logger.log("")
+    Logger.disable()
 
     val newLastSteps = step :: lastSteps
 

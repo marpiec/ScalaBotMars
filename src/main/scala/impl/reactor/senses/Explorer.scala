@@ -4,6 +4,7 @@ import impl.analyser.{PathFinder, ViewAnalyser}
 import impl.servercommunication.function.ReactFunction
 import impl.data.DirectionPreferences
 import impl.configuration.PrizesFunctions
+import impl.languageutil.Logger
 
 /**
  *
@@ -19,6 +20,9 @@ class Explorer(val viewAnalyser: ViewAnalyser, reactFunction: ReactFunction) {
     val prize = PrizesFunctions.explorer(reactFunction.lastSteps)
 
     preferences.increasePreference(nextStep, prize)
+
+    Logger.log("Explorer:   \t" + preferences)
+
     preferences
   }
 }

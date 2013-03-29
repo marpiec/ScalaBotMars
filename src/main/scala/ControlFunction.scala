@@ -1,3 +1,4 @@
+import impl.languageutil.Logger
 import impl.servercommunication.command.SetCommand
 import impl.servercommunication.function.{WelcomeFunction, ReactFunction}
 import impl.reactor.{MiniBotReactHandler, BotReactHandler}
@@ -8,11 +9,16 @@ class ControlFunction {
 
     try {
       //println(input)
-      val response = tryToRespond(input)
+      val parser = new InputParser(input)
+      val response = tryToRespond(parser)
 
       //Thread.sleep(250)
 
-      //println(response)
+//      if (parser.isReactFunction && parser.result.asInstanceOf[ReactFunction].generation == 0) {
+//        Logger.enable()
+//        Logger.log(response.toString)
+//        Logger.disable()
+//      }
 
       response.toString
     } catch {
@@ -25,8 +31,7 @@ class ControlFunction {
   }
 
 
-  def tryToRespond(input: String) = {
-    val parser = new InputParser(input)
+  def tryToRespond(parser: InputParser) = {
 
     if (parser.isWelcomeFunction) {
       val welcomeFunction = parser.result.asInstanceOf[WelcomeFunction]

@@ -2,7 +2,7 @@ package impl.reactor.senses
 
 import impl.analyser.ViewAnalyser
 import impl.servercommunication.function.ReactFunction
-import impl.data.{DirectionPreferences, XY}
+import impl.data.{Directions, DirectionPreferences, XY}
 import scala.None
 
 /**
@@ -23,7 +23,16 @@ class LifeGuide(viewAnalyser: ViewAnalyser, reactFunction: ReactFunction, cabinF
         newDestinationOption = Option(XY(-1, -1))
       } else {
         //val currentDirection = Directions.getDirectionFor(currentDestination)
-        val newDestination: XY = cabinFeverPreferences.findBestStep()
+        //val newDestination: XY = cabinFeverPreferences.findBestStep()
+
+
+        val goSomewhereElsePreferences = new DirectionPreferences
+        goSomewhereElsePreferences.increasePreference(Directions.getStepForDirection((math.random * 8).toInt), 5.0)
+
+        val rand:Int = ((math.random - 0.5) * 4.0).toInt
+        val preferences = goSomewhereElsePreferences + cabinFeverPreferences
+
+        val newDestination = Directions.getStepForDirection(preferences.findBestDirection()+ rand)
         //println("New destination: "+newDestination+" "+cabinFeverPreferences)
         newDestinationOption = Option(newDestination) //
       }
@@ -39,7 +48,7 @@ class LifeGuide(viewAnalyser: ViewAnalyser, reactFunction: ReactFunction, cabinF
       return true
     } else if (reactFunction.lastSteps.isFilled && time > destinationChangeTime + 20) {
       val change = reactFunction.lastSteps.calculateChange
-      if (math.max(change.x, change.y) < 5) {
+      if (math.max(math.abs(change.x), math.abs(change.y)) < 5) {
         return true
       }
     } else if (time > destinationChangeTime + 400) {

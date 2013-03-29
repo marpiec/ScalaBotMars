@@ -3,6 +3,7 @@ package impl.reactor.senses
 import impl.analyser.{PathFinder, ViewAnalyser}
 import impl.data.{XY, DirectionPreferences}
 import impl.configuration.PrizesFunctions
+import impl.languageutil.Logger
 
 /**
  * @author Marcin Pieciukiewicz
@@ -20,6 +21,9 @@ class Loner(val viewAnalyser: ViewAnalyser) {
       val prize = PrizesFunctions.loner(pathLength)
       preferences.increasePreference(nextStep, prize)
     })
+
+
+    Logger.log("Loner:      \t" + preferences)
 
     preferences
   }

@@ -7,6 +7,7 @@ import impl.servercommunication.function.ReactFunction
 import senses._
 import impl.configuration.Parameters
 import impl.servercommunication.CustomStatus
+import impl.languageutil.Logger
 
 /**
  * @author Marcin Pieciukiewicz
@@ -17,7 +18,9 @@ class HunterMiniBotReactHandler(reactFunction: ReactFunction, viewAnalyser: View
 
   def respond(): Commands = {
 
-    if (viewAnalyser.enemiesCount > viewAnalyser.myMiniBots.size && math.random < 0.2 && reactFunction.energy < 200) {
+    if (viewAnalyser.enemiesCount > viewAnalyser.myMiniBots.size * 0.7 &&
+      math.random < Parameters.PROBABILITY_TO_CHANGE_INTO_MISSILE &&
+      reactFunction.energy < 150 * (viewAnalyser.enemiesCount - viewAnalyser.myMiniBots.size)) {
       new SetCommand(Map(CustomStatus.ROLE -> MiniBotRoles.MISSILE)) :: new MissileMiniBotReactHandler(reactFunction, viewAnalyser).respond()
     } else {
 
@@ -33,6 +36,7 @@ class HunterMiniBotReactHandler(reactFunction: ReactFunction, viewAnalyser: View
       }
 
       val preferences = multiplePreferences.foldLeft(new DirectionPreferences)(_ + _)
+
 
       val step: XY = DirectionAdvisor.findBestMoveFromPreferences(preferences, viewAnalyser, true)
 

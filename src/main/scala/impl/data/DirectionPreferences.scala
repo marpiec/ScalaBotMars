@@ -1,11 +1,17 @@
 package impl.data
 
 import impl.languageutil.CollectionUtil
+import java.text.DecimalFormat
+
+object DirectionPreferences {
+  val decimalFormat = new DecimalFormat("##0.###")
+}
 
 /**
  * Direction preferences list contains values for each degree starting from north, clock wise.
  */
 class DirectionPreferences {
+
 
   val DIRECTIONS_COUNT = Directions.DIRECTIONS_COUNT
 
@@ -66,8 +72,10 @@ class DirectionPreferences {
   }
 
   override def toString: String = {
+
+
     val sb = new StringBuilder()
-    preferences.foreach(sb.append(_).append(", "))
+    preferences.foreach(preference => sb.append(DirectionPreferences.decimalFormat.format(preference)).append(" \t"))
     sb.substring(0, sb.length - 2)
   }
 }

@@ -13,11 +13,13 @@ object Parameters {
 
   // Mini bot hunter
   val HUNTER_FEAR = 1.0
-  val HUNTER_HUNGER = 1.0
+  val HUNTER_HUNGER = 2.0
   val HUNTER_CABIN_FEVER = 1.0
   val HUNTER_GO_HOME = 0.7
   val HUNTER_LONER = 1.0
 
   //Mini bot missile
+
+  val PROBABILITY_TO_CHANGE_INTO_MISSILE = 0.7
 
 }

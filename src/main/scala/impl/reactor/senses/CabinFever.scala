@@ -2,6 +2,7 @@ package impl.reactor.senses
 
 import impl.analyser.{PathFinder, ViewAnalyser}
 import impl.data.{EntitiesTypes, XY, DirectionPreferences}
+import impl.languageutil.Logger
 
 /**
  *
@@ -32,6 +33,8 @@ class CabinFever(viewAnalyser: ViewAnalyser) {
     for (x <- -HORIZON + 1 to HORIZON - 1) {
       increasePreferencesForTarget(new XY(x, -HORIZON), preferences)
     }
+
+    Logger.log("Cabin Fever:\t" + preferences)
 
     preferences
   }
