@@ -2,7 +2,7 @@ package impl.reactor
 
 import impl.analyser.{DirectionAdvisor, ViewAnalyser}
 import impl.servercommunication.command._
-import impl.data.{MiniBotRoles, DirectionPreferences, XY}
+import impl.data.{Directions, MiniBotRoles, DirectionPreferences, XY}
 import impl.servercommunication.function.ReactFunction
 import senses._
 import impl.configuration.Parameters
@@ -42,6 +42,10 @@ class HunterMiniBotReactHandler(reactFunction: ReactFunction, viewAnalyser: View
 
       var commands = new Commands(new Move(step))
       commands ::= new SetCommand(Map(CustomStatus.TIME_FROM_CREATION -> (timeFromCreation + 1).toString))
+      if (timeFromCreation % 100 == 0 && reactFunction.energy > 150 && viewAnalyser.myMiniBots.size < 7) {
+        val spawnStep = Directions.getStepForDirectionModulo(Directions.getDirectionFor(preferences.findBestStep()) + 4)
+        commands ::= new Spawn(spawnStep, "hunter", 100, MiniBotRoles.HUNTER)
+      }
       commands
     }
 

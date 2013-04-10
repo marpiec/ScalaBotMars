@@ -18,7 +18,7 @@ class GoHome(viewAnalyser: ViewAnalyser, reactFunction: ReactFunction) {
     val foodCount = viewAnalyser.goodPlants.size + viewAnalyser.goodBeasts.size
 
     val (nextStep, pathLength) = PathFinder.findNextStepAndDistance(viewAnalyser, masterPosition)
-    val prize = PrizesFunctions.goHome(pathLength, reactFunction.energy, foodCount, viewAnalyser.myBots.nonEmpty)
+    val prize = PrizesFunctions.goHome(pathLength, reactFunction.energy, foodCount, viewAnalyser.myBots.nonEmpty, reactFunction.time)
 
     preferences.increasePreference(nextStep, prize)
 

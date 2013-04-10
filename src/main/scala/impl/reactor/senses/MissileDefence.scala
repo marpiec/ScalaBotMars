@@ -23,7 +23,7 @@ class MissileDefence(viewAnalyser: ViewAnalyser, slavesCount: Int, maxSlaves: In
 
           val notEnoughMissilesNear = myMiniBots.count(myBotRelativePosition => {
             PathFinder.calculateRequiredSteps(myBotRelativePosition, target) < 10
-          }) < 2
+          }) < 4
 
           if (notEnoughMissilesNear && targets.size + 5 > myMiniBots.size) {
             return Option(new Spawn(nextStep, "antiMissile", 100, MiniBotRoles.MISSILE))
