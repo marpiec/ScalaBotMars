@@ -11,7 +11,7 @@ class MissileDefence(viewAnalyser: ViewAnalyser, slavesCount: Int, maxSlaves: In
 
 
   def calculateCommands(): Option[Spawn] = {
-
+     /*
     val targets: List[XY] = viewAnalyser.enemyMiniBots ::: viewAnalyser.enemyBots ::: viewAnalyser.badBeasts
     val myMiniBots: List[XY] = viewAnalyser.myMiniBots
 
@@ -31,7 +31,7 @@ class MissileDefence(viewAnalyser: ViewAnalyser, slavesCount: Int, maxSlaves: In
         }
 
       })
-    }
+    }  */
     None
   }
 

@@ -2,7 +2,7 @@ package impl.servercommunication
 
 import data.LastSteps
 import impl.servercommunication.function.{GoodbyeFunction, ReactFunction, WelcomeFunction}
-import impl.data.XY
+import impl.data.{Step, XY}
 
 
 class InputParser(input: String) {
@@ -35,7 +35,7 @@ class InputParser(input: String) {
         parsedParams.getOrElse(CustomStatus.ROLE, "master"),
         parsedParams.getOrElse(CustomStatus.MAX_SLAVES, "1000000").toInt,
         parsedParams.getOrElse(CustomStatus.TIME_FROM_CREATION, "0").toInt,
-        XY.parse(parsedParams.getOrElse(CustomStatus.DESTINATION, "0:0")),
+        new Step(XY.parse(parsedParams.getOrElse(CustomStatus.DESTINATION, "-1:0"))),
         parsedParams.getOrElse(CustomStatus.DESTINATION_CHANGE_TIME, "0").toInt,
         LastSteps.parse(parsedParams.getOrElse(CustomStatus.LAST_STEPS, "0:0"))
       )

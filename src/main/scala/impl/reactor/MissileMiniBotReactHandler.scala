@@ -2,7 +2,7 @@ package impl.reactor
 
 import impl.analyser.{DirectionAdvisor, PathFinder, ViewAnalyser}
 import impl.servercommunication.command._
-import impl.data.{MiniBotRoles, DirectionPreferences, XY}
+import impl.data.{Step, MiniBotRoles, DirectionPreferences, XY}
 import impl.servercommunication.function.ReactFunction
 import impl.servercommunication.CustomStatus
 
@@ -34,19 +34,20 @@ class MissileMiniBotReactHandler(reactFunction: ReactFunction, viewAnalyser: Vie
       commands
     } else {
       //change into hunter
+      reactFunction.timeFromCreation = 0
       new SetCommand(Map(CustomStatus.ROLE -> MiniBotRoles.HUNTER)) :: new HunterMiniBotReactHandler(reactFunction, viewAnalyser).respond()
     }
   }
 
   def prepareExplodeCommandOption(possibleTargets: List[XY]): Option[Command] = {
     var closestPath = Int.MaxValue
-    var closestPathDirection: XY = null
+    var closestPathFirstStep: Step = null
     possibleTargets.foreach(targetRelativePosition => {
       val (nextStep, pathLength) = PathFinder.findNextStepAndDistance(viewAnalyser, targetRelativePosition)
 
       if (pathLength < closestPath) {
         closestPath = pathLength
-        closestPathDirection = nextStep
+        closestPathFirstStep = nextStep
       }
     })
     if (closestPath <= 2) {

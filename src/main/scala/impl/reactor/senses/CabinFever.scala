@@ -1,7 +1,7 @@
 package impl.reactor.senses
 
 import impl.analyser.{PathFinder, ViewAnalyser}
-import impl.data.{EntitiesTypes, XY, DirectionPreferences}
+import impl.data.{Step, EntitiesTypes, XY, DirectionPreferences}
 import impl.languageutil.Logger
 
 /**
@@ -43,7 +43,7 @@ class CabinFever(viewAnalyser: ViewAnalyser) {
   def increasePreferencesForTarget(relativeTarget: XY, directionPreferences: DirectionPreferences) {
     val targetViewPoint = viewAnalyser.getViewPointRelative(relativeTarget.x, relativeTarget.y)
     if (!EntitiesTypes.isInvisible(targetViewPoint)) {
-      val step: XY = PathFinder.findNextStepTo(viewAnalyser, relativeTarget)
+      val step: Step = PathFinder.findNextStepTo(viewAnalyser, relativeTarget)
       directionPreferences.increasePreference(step, 0.1)
     }
   }

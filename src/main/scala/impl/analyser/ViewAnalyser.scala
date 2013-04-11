@@ -23,13 +23,26 @@ class ViewAnalyser(view: String) {
   findEntities()
 
 
-  def getViewPointFromRelative(xy: XY): Char = view.charAt((xy.y + viewDistance) * viewSize + (xy.x + viewDistance))
+  def getViewPointRelative(xy: XY): Char = view.charAt((xy.y + viewDistance) * viewSize + (xy.x + viewDistance))
 
   def getViewPoint(x: Int, y: Int): Char = view.charAt(y * viewSize + x)
 
   def getViewPointRelative(x: Int, y: Int): Char = view.charAt((y + viewDistance) * viewSize + (x + viewDistance))
 
   def enemiesCount = badPlants.size + enemyBots.size + enemyMiniBots.size
+
+  lazy val nearestEnemyDistance = {
+
+    var nearest = Integer.MAX_VALUE
+
+    (enemyBots ::: enemyMiniBots ::: badBeasts).foreach(enemy => {
+      val distance = PathFinder.calculateRequiredSteps(enemy)
+      if (nearest > distance) {
+        nearest = distance
+      }
+    })
+    nearest
+  }
 
   private def findEntities() {
     for (y <- 0 until viewSize) {

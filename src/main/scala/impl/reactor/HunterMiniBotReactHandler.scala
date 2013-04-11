@@ -2,7 +2,7 @@ package impl.reactor
 
 import impl.analyser.{DirectionAdvisor, ViewAnalyser}
 import impl.servercommunication.command._
-import impl.data.{Directions, MiniBotRoles, DirectionPreferences, XY}
+import impl.data.{Step, MiniBotRoles, DirectionPreferences, XY}
 import impl.servercommunication.function.ReactFunction
 import senses._
 import impl.configuration.Parameters
@@ -17,9 +17,7 @@ class HunterMiniBotReactHandler(reactFunction: ReactFunction, viewAnalyser: View
 
   def respond(): Commands = {
 
-    if (viewAnalyser.enemiesCount > viewAnalyser.myMiniBots.size * 0.7 &&
-      math.random < Parameters.PROBABILITY_TO_CHANGE_INTO_MISSILE &&
-      reactFunction.energy < 150 * (viewAnalyser.enemiesCount - viewAnalyser.myMiniBots.size)) {
+    if (viewAnalyser.nearestEnemyDistance < 2 || viewAnalyser.enemiesCount > 0 && math.random < Parameters.PROBABILITY_TO_CHANGE_INTO_MISSILE && reactFunction.timeFromCreation > 2) {
       new SetCommand(Map(CustomStatus.ROLE -> MiniBotRoles.MISSILE)) :: new MissileMiniBotReactHandler(reactFunction, viewAnalyser).respond()
     } else {
 
@@ -37,13 +35,15 @@ class HunterMiniBotReactHandler(reactFunction: ReactFunction, viewAnalyser: View
       val preferences = multiplePreferences.foldLeft(new DirectionPreferences)(_ + _)
 
 
-      val step: XY = DirectionAdvisor.findBestMoveFromPreferences(preferences, viewAnalyser, true)
+      val step: Step = DirectionAdvisor.findBestMoveFromPreferences(preferences, viewAnalyser, true)
 
 
       var commands = new Commands(new Move(step))
       commands ::= new SetCommand(Map(CustomStatus.TIME_FROM_CREATION -> (timeFromCreation + 1).toString))
-      if (timeFromCreation % 100 == 0 && reactFunction.energy > 150 && viewAnalyser.myMiniBots.size < 7) {
-        val spawnStep = Directions.getStepForDirectionModulo(Directions.getDirectionFor(preferences.findBestStep()) + 4)
+      if (timeFromCreation > 10 && reactFunction.energy > 150 && (viewAnalyser.myMiniBots.size < 10 || viewAnalyser.enemyMiniBots.size > 0 || viewAnalyser.enemyBots.size > 0)) {
+
+        val spawnStep = preferences.findBestStep().rotate(2)
+
         commands ::= new Spawn(spawnStep, "hunter", 100, MiniBotRoles.HUNTER)
       }
       commands

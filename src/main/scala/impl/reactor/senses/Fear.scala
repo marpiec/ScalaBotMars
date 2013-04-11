@@ -15,7 +15,7 @@ class Fear(val viewAnalyser: ViewAnalyser) {
 
     badEntities.foreach(entityPositionRelative => {
       val (nextStep, pathLength) = PathFinder.findNextStepAndDistance(viewAnalyser, entityPositionRelative)
-      val stepPrize = PrizesFunctions.fear(viewAnalyser.getViewPointFromRelative(entityPositionRelative), pathLength)
+      val stepPrize = PrizesFunctions.fear(viewAnalyser.getViewPointRelative(entityPositionRelative), pathLength)
       preferences.increasePreference(nextStep, stepPrize)
     })
 

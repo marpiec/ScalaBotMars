@@ -1,12 +1,12 @@
 package impl.servercommunication.function
 
-import impl.data.XY
+import impl.data.{Step, XY}
 import impl.servercommunication.data.LastSteps
 
 class ReactFunction(val generation: Int, val name: String, val time: Int, val view: String,
                     val energy: Int, val masterOption: Option[XY], val collisionOption: Option[XY],
                     val slaves: Int, val role: String, val maxSlaves: Int,
-                    val timeFromCreation: Int, val destination: XY,
+                    var timeFromCreation: Int, val destination: Step,
                     val destinationChangeTime: Int, val lastSteps: LastSteps) {
 
 

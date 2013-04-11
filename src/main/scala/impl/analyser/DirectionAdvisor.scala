@@ -1,6 +1,6 @@
 package impl.analyser
 
-import impl.data.{Directions, EntitiesTypes, XY, DirectionPreferences}
+import impl.data.{EntitiesTypes, XY, DirectionPreferences, Step}
 import impl.languageutil.Logger
 
 /**
@@ -8,18 +8,18 @@ import impl.languageutil.Logger
  */
 object DirectionAdvisor {
 
-  val DIRECTIONS_COUNT = Directions.DIRECTIONS_COUNT
+  val DIRECTIONS_COUNT = Step.DIRECTIONS_COUNT
   val VERY_LARGE_PREFERENCE_CHANGE = 1000000
 
   def findBestMoveFromPreferences(preferences: DirectionPreferences, viewAnalyser: ViewAnalyser, myMiniBotNotSafe: Boolean) = {
     var targetPoint: Char = '_'
-    var step: XY = null
+    var step: Step = null
     var triesCount = 0
     Logger.logNoLn("Checking steps: ")
     do {
       step = preferences.findBestStep()
 
-      targetPoint = viewAnalyser.getViewPointRelative(step.x, step.y)
+      targetPoint = viewAnalyser.getViewPointRelative(step.xy)
 
       Logger.logNoLn(step + " [" + targetPoint + "], ")
 

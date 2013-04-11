@@ -53,11 +53,11 @@ object PrizesFunctions {
 
   def goHome(pathLength: Int, energy: Double, foodCount: Int, masterVisible: Boolean, time:Int): Double = {
     val scale = if (masterVisible) 1.0 else 0.1
-    scale * energy / pathLength * (1 + (math.max(0, (math.max(time, 4500) - 4500)).toDouble / 500.0) * 100)
+    scale * energy * energy / 100 / pathLength * (1 + (math.max(0, (math.max(time, 4500) - 4500)).toDouble / 500.0) * 30)
   }
 
   def loner(pathLength: Int): Double = {
-    -pathLength * pathLength / 10.0
+    -pathLength * pathLength / 10.0 * pathLength / 10.0
   }
 
   def explorer(steps: LastSteps): Double = {
