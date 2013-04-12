@@ -13,14 +13,14 @@ object DirectionPreferences {
 class DirectionPreferences {
 
 
-  val DIRECTIONS_COUNT = Step.DIRECTIONS_COUNT
+  val DIRECTIONS_COUNT = Directions.DIRECTIONS_COUNT
 
   val preferences: Array[Double] = Array.fill(DIRECTIONS_COUNT)(0.0)
 
   def getPreference(direction: Int) = preferences(direction)
 
-  def increasePreference(step: Step, preferenceDiff: Double) {
-    val direction = step.direction
+  def increasePreference(step: XY, preferenceDiff: Double) {
+    val direction = Directions.getDirectionFor(step)
     preferences(normalizeModulo(direction)) += preferenceDiff
     preferences(normalizeModulo(direction - 1)) += preferenceDiff / 2
     preferences(normalizeModulo(direction + 1)) += preferenceDiff / 2
@@ -28,16 +28,20 @@ class DirectionPreferences {
     preferences(normalizeModulo(direction + 2)) += preferenceDiff / 4
   }
 
-  def decreasePreferenceSharp(step: Step, preferenceDiff: Double) {
-    decreasePreferenceSharpForDirection(step.direction, preferenceDiff)
+  def decreasePreferenceSharp(step: XY, preferenceDiff: Double) {
+    decreasePreferenceSharpForDirection(Directions.getDirectionFor(step), preferenceDiff)
   }
 
   def decreasePreferenceSharpForDirection(direction: Int, preferenceDiff: Double) {
     preferences(normalizeModulo(direction)) -= preferenceDiff
   }
 
-  def findBestStep(): Step = {
-    Step(CollectionUtil.findIndexOfMaxElement(preferences))
+  def findBestStep(): XY = {
+    Directions.getStepForDirection(findBestDirection())
+  }
+
+  def findBestDirection(): Int = {
+    CollectionUtil.findIndexOfMaxElement(preferences)
   }
 
 

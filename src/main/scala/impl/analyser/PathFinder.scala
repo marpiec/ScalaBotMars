@@ -1,6 +1,6 @@
 package impl.analyser
 
-import impl.data.{Step, XY}
+import impl.data.XY
 
 object PathFinder {
 
@@ -11,7 +11,7 @@ object PathFinder {
   def calculateRequiredSteps(source: XY, destination: XY): Int = math.max(math.abs(source.x - destination.x),
     math.abs(source.y - destination.y))
 
-  def findNextStepTo(viewAnalyser: ViewAnalyser, relativeTarget: XY): Step = {
+  def findNextStepTo(viewAnalyser: ViewAnalyser, relativeTarget: XY): XY = {
     var newX = 0
     var newY = 0
     val absX = math.abs(relativeTarget.x).toDouble
@@ -35,10 +35,10 @@ object PathFinder {
       newY = -newY
     }
 
-    new Step(XY(newX, newY))
+    XY(newX, newY)
   }
 
-  def findNextStepAndDistance(viewAnalyser: ViewAnalyser, relativeTarget: XY): (Step, Int) = {
+  def findNextStepAndDistance(viewAnalyser: ViewAnalyser, relativeTarget: XY): (XY, Int) = {
     (findNextStepTo(viewAnalyser, relativeTarget), calculateRequiredSteps(relativeTarget))
   }
 

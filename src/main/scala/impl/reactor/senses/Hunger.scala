@@ -15,7 +15,7 @@ class Hunger(viewAnalyser: ViewAnalyser) {
 
     goodEntitiesRelative.foreach(entityPositionRelative => {
       val (nextStep, pathLength) = PathFinder.findNextStepAndDistance(viewAnalyser, entityPositionRelative)
-      val stepPrize = PrizesFunctions.hunger(viewAnalyser.getViewPointRelative(entityPositionRelative), pathLength)
+      val stepPrize = PrizesFunctions.hunger(viewAnalyser.getViewPointFromRelative(entityPositionRelative), pathLength)
       preferences.increasePreference(nextStep, stepPrize)
     })
 

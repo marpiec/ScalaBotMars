@@ -23,7 +23,7 @@ class ViewAnalyser(view: String) {
   findEntities()
 
 
-  def getViewPointRelative(xy: XY): Char = view.charAt((xy.y + viewDistance) * viewSize + (xy.x + viewDistance))
+  def getViewPointFromRelative(xy: XY): Char = view.charAt((xy.y + viewDistance) * viewSize + (xy.x + viewDistance))
 
   def getViewPoint(x: Int, y: Int): Char = view.charAt(y * viewSize + x)
 

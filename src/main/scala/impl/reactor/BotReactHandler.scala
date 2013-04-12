@@ -2,7 +2,7 @@ package impl.reactor
 
 import impl.servercommunication.function.ReactFunction
 import impl.servercommunication.command.{Spawn, SetCommand, Commands, Move}
-import impl.data.{Step, DirectionPreferences, XY}
+import impl.data.{Directions, DirectionPreferences, XY}
 import impl.analyser._
 import senses._
 import impl.configuration.Parameters
@@ -16,6 +16,8 @@ class BotReactHandler(reactFunction: ReactFunction) {
 
   def respond() = {
 
+    val numberOfBots = BotCounter.registerBot(reactFunction.time)
+
     //println(reactFunction.viewToFormattedString())
 
     // --- Direction preferences
@@ -25,7 +27,9 @@ class BotReactHandler(reactFunction: ReactFunction) {
 
     val cabinFeverPreferences = new CabinFever(viewAnalyser).calculatePreferences()
     multiplePreferences ::= cabinFeverPreferences * Parameters.BOT_CABIN_FEVER
-    multiplePreferences ::= new Hunger(viewAnalyser).calculatePreferences() * Parameters.BOT_HUNGER
+    if(viewAnalyser.myMiniBots.size < 5) {
+      multiplePreferences ::= new Hunger(viewAnalyser).calculatePreferences() * Parameters.BOT_HUNGER
+    }
     multiplePreferences ::= new Fear(viewAnalyser).calculatePreferences() * Parameters.BOT_FEAR
     multiplePreferences ::= new Explorer(viewAnalyser, reactFunction).calculatePreferences() * Parameters.BOT_EXPLORER
 
@@ -37,19 +41,19 @@ class BotReactHandler(reactFunction: ReactFunction) {
 
     // --- next step
 
-    val step: Step = DirectionAdvisor.findBestMoveFromPreferences(preferences, viewAnalyser, false)
+    val step: XY = DirectionAdvisor.findBestMoveFromPreferences(preferences, viewAnalyser, false)
 
 
     Logger.log("")
     Logger.disable()
 
-    val newLastSteps = step.xy :: lastSteps
+    val newLastSteps = step :: lastSteps
 
     // --- spawning mini bots
 
-    val antiMissileCommands = new MissileDefence(viewAnalyser, reactFunction.slaves, reactFunction.maxSlaves).calculateCommands()
+    val antiMissileCommands = new MissileDefence(reactFunction, viewAnalyser, reactFunction.slaves, reactFunction.maxSlaves).calculateCommands()
     val spawnCommand = if (antiMissileCommands.isEmpty) {
-      new ScoutsCreator(viewAnalyser, reactFunction.slaves, reactFunction.maxSlaves).calculateCommands()
+      new ScoutsCreator(reactFunction, viewAnalyser, reactFunction.slaves, reactFunction.maxSlaves).calculateCommands()
     } else {
       antiMissileCommands
     }
@@ -75,7 +79,7 @@ class BotReactHandler(reactFunction: ReactFunction) {
   }
 
 
-  def applyBotMoveToSpawn(spawnCommand: Option[Spawn], masterBotStep: Step, commands: Commands): Commands = {
+  def applyBotMoveToSpawn(spawnCommand: Option[Spawn], masterBotStep: XY, commands: Commands): Commands = {
     if (spawnCommand.isDefined) {
       val spawn = spawnCommand.get
       val spawnStep = spawn.direction
@@ -93,9 +97,9 @@ class BotReactHandler(reactFunction: ReactFunction) {
     return commands
   }
 
-  def trySimilarSpawnPoint(spawnStep: Step, spawn: Spawn, delta: Int): Boolean = {
-    val newSpawnStep = spawnStep.rotate(delta)
-    val spawnPoint = viewAnalyser.getViewPointRelative(newSpawnStep.xy)
+  def trySimilarSpawnPoint(spawnStep: XY, spawn: Spawn, delta: Int): Boolean = {
+    val newSpawnStep = Directions.getStepForDirectionModulo(Directions.getDirectionFor(spawnStep) + delta)
+    val spawnPoint = viewAnalyser.getViewPointRelative(newSpawnStep.x, newSpawnStep.y)
     if (DirectionAdvisor.pointNotSafe(spawnPoint, true)) {
       spawn.direction = newSpawnStep
       true

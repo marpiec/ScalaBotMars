@@ -18,8 +18,10 @@ class Loner(val viewAnalyser: ViewAnalyser) {
 
     myMiniBotsRelative.foreach(myMiniBotRelative => {
       val (nextStep, pathLength) = PathFinder.findNextStepAndDistance(viewAnalyser, myMiniBotRelative)
-      val prize = PrizesFunctions.loner(pathLength)
-      preferences.increasePreference(nextStep, prize)
+      if (pathLength > 0) {
+        val prize = PrizesFunctions.loner(pathLength)
+        preferences.increasePreference(nextStep, prize)
+      }
     })
 
 

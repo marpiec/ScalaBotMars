@@ -1,8 +1,8 @@
 package impl.reactor
 
-import impl.analyser.{DirectionAdvisor, PathFinder, ViewAnalyser}
+import impl.analyser.{BotCounter, DirectionAdvisor, PathFinder, ViewAnalyser}
 import impl.servercommunication.command._
-import impl.data.{Step, MiniBotRoles, DirectionPreferences, XY}
+import impl.data.{MiniBotRoles, DirectionPreferences, XY}
 import impl.servercommunication.function.ReactFunction
 import impl.servercommunication.CustomStatus
 
@@ -12,6 +12,8 @@ import impl.servercommunication.CustomStatus
 class MissileMiniBotReactHandler(reactFunction: ReactFunction, viewAnalyser: ViewAnalyser) {
 
   def respond(): Commands = {
+
+    val numberOfBots = BotCounter.registerBot(reactFunction.time)
 
     val enemyMiniBots: List[XY] = viewAnalyser.enemyMiniBots
     val enemyBots: List[XY] = viewAnalyser.enemyBots
@@ -41,13 +43,13 @@ class MissileMiniBotReactHandler(reactFunction: ReactFunction, viewAnalyser: Vie
 
   def prepareExplodeCommandOption(possibleTargets: List[XY]): Option[Command] = {
     var closestPath = Int.MaxValue
-    var closestPathFirstStep: Step = null
+    var closestPathDirection: XY = null
     possibleTargets.foreach(targetRelativePosition => {
       val (nextStep, pathLength) = PathFinder.findNextStepAndDistance(viewAnalyser, targetRelativePosition)
 
       if (pathLength < closestPath) {
         closestPath = pathLength
-        closestPathFirstStep = nextStep
+        closestPathDirection = nextStep
       }
     })
     if (closestPath <= 2) {

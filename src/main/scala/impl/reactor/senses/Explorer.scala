@@ -16,7 +16,7 @@ class Explorer(val viewAnalyser: ViewAnalyser, reactFunction: ReactFunction) {
 
     val preferences = new DirectionPreferences()
 
-    val nextStep = PathFinder.findNextStepTo(viewAnalyser, currentDestination.xy)
+    val nextStep = PathFinder.findNextStepTo(viewAnalyser, currentDestination)
     val prize = PrizesFunctions.explorer(reactFunction.lastSteps)
 
     preferences.increasePreference(nextStep, prize)

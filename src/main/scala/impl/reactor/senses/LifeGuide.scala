@@ -2,7 +2,7 @@ package impl.reactor.senses
 
 import impl.analyser.ViewAnalyser
 import impl.servercommunication.function.ReactFunction
-import impl.data.{Step, DirectionPreferences, XY}
+import impl.data.{Directions, DirectionPreferences, XY}
 import scala.None
 
 /**
@@ -14,21 +14,29 @@ class LifeGuide(viewAnalyser: ViewAnalyser, reactFunction: ReactFunction, cabinF
   val destinationChangeTime = reactFunction.destinationChangeTime
   val time = reactFunction.time
 
-  def chooseDestination(): Step = {
+  def chooseDestination(): XY = {
 
-    var newDestinationOption: Option[Step] = None
+    var newDestinationOption: Option[XY] = None
 
     if (doesDestinationHaveToChange()) {
-      val goSomewhereElsePreferences = new DirectionPreferences
+      if (currentDestination == XY.ZERO) {
+        newDestinationOption = Option(XY(-1, -1))
+      } else {
+        //val currentDirection = Directions.getDirectionFor(currentDestination)
+        //val newDestination: XY = cabinFeverPreferences.findBestStep()
 
-      goSomewhereElsePreferences.increasePreference(Step((math.random * 8).toInt), 5.0)
 
-      val rand: Int = ((math.random - 0.5) * 4.0).toInt
-      val preferences = goSomewhereElsePreferences + cabinFeverPreferences
+        val goSomewhereElsePreferences = new DirectionPreferences
+        goSomewhereElsePreferences.increasePreference(Directions.getStepForDirectionModulo((math.random * 8).toInt), 5.0)
 
-      val newDestination = preferences.findBestStep().rotate(rand)
+        val rand: Int = ((math.random - 0.5) * 4.0).toInt
+        val preferences = goSomewhereElsePreferences + cabinFeverPreferences
 
-      newDestinationOption = Option(newDestination)
+        val newDestination = Directions.getStepForDirectionModulo(preferences.findBestDirection() + rand)
+        //println("New destination: "+newDestination+" "+cabinFeverPreferences)
+        newDestinationOption = Option(newDestination) //
+      }
+
     }
 
     newDestinationOption.getOrElse(reactFunction.destination)
@@ -40,7 +48,7 @@ class LifeGuide(viewAnalyser: ViewAnalyser, reactFunction: ReactFunction, cabinF
       return true
     } else if (reactFunction.lastSteps.isFilled && time > destinationChangeTime + 10) {
       val change = reactFunction.lastSteps.calculateChange
-      if (math.max(math.abs(change.x), math.abs(change.y)) < 5) {
+      if (math.max(math.abs(change.x), math.abs(change.y)) < 3) {
         return true
       }
     } else if (time > destinationChangeTime + 400) {
